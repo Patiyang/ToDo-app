@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/styling/fontbig.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,20 +8,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo Fist',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // title: 'Flutter Demo Fist',
+      theme: ThemeData(primarySwatch: Colors.grey),
+      home: MyHomePage(title: 'Flutter productivity app'),
     );
   }
 }
@@ -34,51 +24,86 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+    return MaterialApp(
+      color: Colors.grey[850],
+      home: SafeArea(
+        child: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            body: Stack(
+              children: [
+                TabBarView(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.black87,
+                    ),
+                    Container(
+                      color: Colors.purpleAccent,
+                    ),
+                    Container(
+                      color: Colors.blue,
+                    )
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: 147,
+                  //elevation: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35),
+                      
+                    ),
+                  ),
+                  child: Row(
+                  
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'My Tasks',
+                        style: lobbyText,
+                      ),
+                      Container(),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 185),
+                  height: 290,
+                  child: FloatingActionButton(
+                    child: Icon(Icons.add, size: 50,),
+                    backgroundColor: Colors.red,
+                    onPressed: () {},
+                  ),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            appBar: new TabBar(
+              tabs: <Widget>[
+                Tab(
+                  icon: Icon(Icons.calendar_today),
+                ),
+                Tab(
+                  icon: Icon(Icons.add),
+                ),
+                Tab(
+                  icon: Icon(Icons.menu),
+                )
+              ],
+              labelColor: Colors.red[300],
+              unselectedLabelColor: Colors.grey,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorPadding: EdgeInsets.all(3),
+              indicatorColor: Colors.transparent,
             ),
-          ],
+            backgroundColor: Colors.white,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
-
-

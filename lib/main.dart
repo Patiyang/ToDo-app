@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/styling/fontbig.dart';
+import 'package:todo_app/Interfaces/Own_tasks.dart';
+import 'package:todo_app/Styling/global_styling.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,15 +37,13 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 TabBarView(
                   children: <Widget>[
-                    Container(
-                      color: Colors.black87,
-                    ),
-                    Container(
-                      color: Colors.purpleAccent,
-                    ),
-                    Container(
-                      color: Colors.blue,
-                    )
+                    // Container(
+                    //   color: Colors.black87,
+                    //   child: Home(),
+                    // ),
+                    HomeTab(),
+                    Container(color: Colors.purpleAccent),
+                    Container(color: Colors.blue),
                   ],
                 ),
                 Container(
@@ -56,11 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(35),
                       bottomRight: Radius.circular(35),
-                      
                     ),
                   ),
                   child: Row(
-                  
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
@@ -75,8 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.only(left: 185),
                   height: 290,
                   child: FloatingActionButton(
-                    child: Icon(Icons.add, size: 50,),
-                    backgroundColor: Colors.red,
+                    child: Icon(
+                      Icons.add,
+                      size: 50,
+                    ),
+                    backgroundColor: redColor,
                     onPressed: () {},
                   ),
                 )
@@ -94,8 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.menu),
                 )
               ],
-              labelColor: Colors.red[300],
-              unselectedLabelColor: Colors.grey,
+              labelColor: redColor,
+              unselectedLabelColor: greyColor,
               indicatorSize: TabBarIndicatorSize.label,
               indicatorPadding: EdgeInsets.all(3),
               indicatorColor: Colors.transparent,

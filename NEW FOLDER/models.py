@@ -3,14 +3,16 @@ from marshmallow import Schema, fields, pre_load, validate
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+
 ma = Marshmallow()
+db = SQLAlchemy()
+
 
 class User(db.Model):
     __tablename__ = 'users'
     __table_args__ = tuple(db.UniqueConstraint('id', 'username', name=''))
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True, unique=True)
     api_key = db.Column(db.String(), primary_key=True, unique=True)
     username = db.Column(db.String(), primary_key=True)
     first_name = db.Column(db.String())
@@ -18,35 +20,26 @@ class User(db.Model):
     password = db.Column(db.String())
     email = db.Column(db.String())
 
-    def __init__(self, api_key, username, first_name, last_name, password, email):
-        #self.id = id
-        #self.api_key = api_key
+    def __init__(self, id, api_key, username, first_name, last_name, password, email):
+        self.id = id
+        self.api_key = api_key
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
         self.password = password
         self.email = email
 
-class UserSchema(ma.Schema):
-    #id = fields.Integer()
-    api_key = fields.Integer()
-    username = fields.String()
-    first_name = fields.String()
-    last_name = fields.String()
-    email = fields.String()
-    password = fields.String()
-
-def __repr__(self):
+    def __repr__(self):
         return '<id {}>'.format(self.id)
 
-def serialize(self):
+    def serialize(self):
         return{
             'id': self.id,
             'api_key':self.api_key,
             'username': self.username,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'email': self.email,
-            'password': self.password
+            'password': self.password,
+            'emailadress': self.emailadress
 
         }

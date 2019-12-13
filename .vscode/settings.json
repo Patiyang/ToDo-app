@@ -2,5 +2,6 @@
     "python.pythonPath": "/home/patto/PROJECTS/Flutter/todo_app/backend/env/bin/python3.6",
      "python.linting.pylintEnabled": true,
      "python.linting.enabled": true,
-     "python.linting.flake8Enabled": false
+    "python.linting.flake8Enabled": false,
+    "dart.sdkPath": "/home/patto/IDEs/flutter/bin/cache/dart-sdk"
 }

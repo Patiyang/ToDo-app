@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/Interfaces/Login/Login.dart';
 import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // title: 'Flutter Demo Fist',
       theme: ThemeData(primarySwatch: Colors.grey),
-      home: MyHomePage(title: 'Flutter productivity app'),
+      home: LoginPage()
     );
   }
 }

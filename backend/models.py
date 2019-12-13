@@ -9,14 +9,16 @@ ma = Marshmallow()
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement = True) 
+    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement = True)
+    api_key = db.Column(db.String) 
     username = db.Column(db.String(), primary_key=True, unique=True)
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
     password = db.Column(db.String())
     email = db.Column(db.String(),primary_key=True, unique=True)
 
-    def __init__(self, username, first_name, last_name, password, email):
+    def __init__(self, api_key, username, first_name, last_name, password, email):
+        self.api_key = api_key
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
@@ -42,6 +44,7 @@ class User(db.Model):
 
 class UserSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
+    api_key = fields.String()
     username = fields.String()
     first_name = fields.String()
     last_name = fields.String()
@@ -62,6 +65,7 @@ def __repr__(self):
 def serialize(self):
         return{
             'id': self.id,
+            'api_key':self.api_key,
             'username': self.username,
             'first_name': self.first_name,
             'last_name': self.last_name,

@@ -1,6 +1,8 @@
 from flask_restful import Resource
 from flask import request
 from models import db, User, UserSchema
+import random
+import string
 
 users_schema = UserSchema(many=True)
 user_schema = UserSchema()
@@ -29,9 +31,15 @@ class Register(Resource):
         user = User.query.filter_by(email=data['email']).first()
         if user:
             return{'message': 'the email already exists'}, 400
+            
+        api_key = self.get_key()
 
+        user = User.query.filter_by(api_key=api_key).first()
+        if user:
+            return{'message': 'the api_key is already in use'}, 400
             
         user = User(
+            api_key= api_key, 
             username=json_data['username'],
             first_name= json_data['first_name'],
             last_name= json_data['last_name'],
@@ -45,6 +53,19 @@ class Register(Resource):
         result = user_schema.dump(user).data
 
         return{'status': 'success', 'data': result}, 201
+        
+    def get_key(self):
+        return''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         # data = request.get_json() 
         # username = data['username']

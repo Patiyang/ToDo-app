@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Models/My_tasks.dart';
-import 'package:todo_app/Models/Tasks.dart';
+import 'package:todo_app/Models/Classes/Tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 
 class HomeTab extends StatefulWidget {

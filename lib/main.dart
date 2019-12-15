@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/Interfaces/Login/Login.dart';
 import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:todo_app/Models/Classes/registerUser.dart';
+import 'package:todo_app/bloc/blocs/register_bloc.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,72 +13,60 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    bloc.registerUser("pattto", "patrick", "mwangi", "mgpatto@gmail.com", "patto123");
     return MaterialApp(
-      // title: 'Flutter Demo Fist',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.grey),
-      home: FutureBuilder(
-        Future<String> _calculation = Future<String>.delayed(
-  Duration(seconds: 2),
-  () => 'Data Loaded',
-);
+      title: 'todo app',
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
+      home: MyHomePage(),
+      // home: FutureBuilder(
+      //     future: getUser(),
+      //     builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-Widget build(BuildContext context) {
-  return FutureBuilder<String>(
-    future: _calculation, // a previously-obtained Future<String> or null
-    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-      List<Widget> children;
+      //       if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
+      //             // print('the snapshot of the project is : ${snapshot.data}');
+      //         return Container();
+      //       }
 
-      if (snapshot.hasData) {
-        children = <Widget>[
-          Icon(
-            Icons.check_circle_outline,
-            color: Colors.green,
-            size: 60,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Text('Result: ${snapshot.data}'),
-          )
-        ];
-      } else if (snapshot.hasError) {
-        children = <Widget>[
-          Icon(
-            Icons.error_outline,
-            color: Colors.red,
-            size: 60,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Text('Error: ${snapshot.error}'),
-          )
-        ];
-      } else {
-        children = <Widget>[
-          SizedBox(
-            child: CircularProgressIndicator(),
-            width: 60,
-            height: 60,
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Text('Awaiting result...'),
-          )
-        ];
-      }
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: children,
-        ),
-      );
-    },
-  );
-}
-      )
+      //       return ListView.builder(
+      //           itemCount: snapshot.data.length,
+      //           itemBuilder: (context, index) {
+      //             return Column(children: <Widget>[]);
+      //           });
+      //     }),
     );
   }
+
+
+
+  Future getUser() async {
+    var result = await http.get('http://127.0.0.1:5000/api/register');
+    print(result.body);
+    return result;
+  }
+
+  // String apiKey = await getApiKey();
+  // if (apiKey.length <=0){
+  //   //you need to log in the user hence needs to be logged in
+  // }else{
+}
+
+asyncFunc() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+}
+
+Future<String> getApiKey() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String apiKey;
+  try {
+    apiKey = (prefs.getString('API_Token'));
+  } catch (Exception) {
+    apiKey = '';
+  }
+  return apiKey;
+  // await prefs.getString(apiKey);
 }
 
 class MyHomePage extends StatefulWidget {

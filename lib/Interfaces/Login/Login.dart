@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Models/Classes/registerUser.dart';
 import 'package:todo_app/bloc/blocs/register_bloc.dart';
+import 'package:todo_app/main.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordCont = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-   
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -48,15 +49,18 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.green,
                   child: Text('Sign Up'),
                   onPressed: () {
-                    User user;
-                    if (passwordCont != null || usernameCont != null || firstnameCont != null 
-                    ||emailCont != null || lastnameCont != null)
-                    {
-                      user =bloc.registerUser(usernameCont.text, firstnameCont.text,
-                          lastnameCont.text, emailCont.text, passwordCont.text);
-                    }
-                    if(user != null){
-                      saveApiKey(user);
+                    // User user;
+                    if (passwordCont != null ||usernameCont != null ||
+                        firstnameCont != null ||emailCont != null ||lastnameCont != null) {
+                        bloc.registerUser(
+                            usernameCont.text,firstnameCont.text,lastnameCont.text,
+                            emailCont.text, passwordCont.text).then((user){
+                              print(user);
+                              if (user !=null){
+                                print('saving');
+                                saveApiKey(user);
+                              }
+                            });
                     }
                   },
                 )
@@ -67,10 +71,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
   void saveApiKey(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     prefs.setString('API_Token', user.apikey);
-    }
-    // await prefs.getString(apiKey);
+    prefs.setString('API_Token', user.apikey);
   }
-
+  // await prefs.getString(apiKey);
+}

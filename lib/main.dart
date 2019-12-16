@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    bloc.registerUser(
-        "pato", "patrick", "mwangi", "pato@gmail.com", "patto123");
+    //bloc.registerUser("username", "firstname", "lastname", "emailadress", "password");
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'todo app',
@@ -53,34 +52,35 @@ class _MyHomePageState extends State<MyHomePage> {
   SharedPreferences prefs;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-            future: getApiKey(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              String apiKey;
-              if (snapshot.hasData) {
-                print('there is data');
-              } else {apiKey = snapshot.data;}
-              print('api key is ' + apiKey);
-              return LoginPage();
-            });
+    return FutureBuilder<dynamic>(
+        future: getApiKey(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          String apiKey = '';
+          if (snapshot.hasData) {
+            apiKey = snapshot.data;
+            print('the api key is:' + apiKey);
+            print('there is data');
+          } else {
+            //print('there is no data');
+          }
+          return apiKey.length > 0 ? getHomePage(): LoginPage();
+        });
   }
 
   Future getApiKey() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
     String apiKey;
-    try {
-      apiKey = (prefs.getString('API_Token'));
-    } catch (Exception) {
-      apiKey = '';
+    try{
+      apiKey = prefs.getString('API_Token');
+    }catch (Exception){
+      apiKey = "";
     }
     return apiKey;
-    //await prefs.getString(apiKey);
   }
 
   Widget getHomePage() {
     return MaterialApp(
       color: Colors.grey[850],
-      home: SafeArea(
+      home: SafeArea(   
         child: DefaultTabController(
           length: 3,
           child: Scaffold(

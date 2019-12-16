@@ -67,7 +67,7 @@ class _HomeTab extends State<HomeTab> {
   }
 
   List<Task> fetchTasks() {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
       taskList.add(Task('my first todo '+ i.toString(), false, i.toString()));
     }
     return taskList;

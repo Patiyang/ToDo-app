@@ -49,7 +49,7 @@ class UserSchema(ma.Schema):
     first_name = fields.String()
     last_name = fields.String()
     email = fields.String()
-   # password = fields.String()
+    password = fields.String()
 
 """class TaskSchema(ma.Schema):
     id = fields.Integer()

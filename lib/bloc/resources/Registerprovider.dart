@@ -5,14 +5,13 @@ import 'package:todo_app/Models/Classes/registerUser.dart';
 
 class RegisterApi{
   Client client = Client();
-   final _apiKey = 'your api key';
+   final _apiKey = 'http://10.0.2.2:5000/api/register';
   Future<User> registerUser(
     String username, String firstname, String lastname, 
     String email,String password) async{
-    print('\n\n\n\n\nyou are in\n\n\n\n\n ');
+    print('you are in ');
     final response = await client
-    .post('http://127.0.0.1:5000/api/register',
-      
+    .post('http://10.0.2.2:5000/api/register', 
      body: jsonEncode({  	
             "username":username,
             "first_name": firstname,
@@ -23,12 +22,10 @@ class RegisterApi{
       )
     );
     print(response.body.toString());
-    if (response.statusCode == 200){
+    if (response.statusCode == 201){
       return User.fromJson(json.decode(response.body));
     }else{
       throw Exception('failed to register');
     }
   }
-
-
 }

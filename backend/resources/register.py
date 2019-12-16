@@ -56,20 +56,3 @@ class Register(Resource):
         
     def get_key(self):
         return''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        # data = request.get_json() 
-        # username = data['username']
-        # password = data['password']
-        # email = data['email']
-
-        # return{"message": "registering {}".format(username)}

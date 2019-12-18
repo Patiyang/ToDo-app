@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_app/Models/Classes/registerUser.dart';
 import 'package:todo_app/bloc/blocs/register_bloc.dart';
+//import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,23 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.grey,
         ),
-        home: MyHomePage()
-        // home: FutureBuilder(
-        //     future: getUser(),
-        //     builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-        //       if (snapshot.connectionState == ConnectionState.none && snapshot.hasData == null) {
-        //             // print('the snapshot of the project is : ${snapshot.data}');
-        //         return Container();
-        //       }
-
-        //       return ListView.builder(
-        //           itemCount: snapshot.data.length,
-        //           itemBuilder: (context, index) {
-        //             return Column(children: <Widget>[]);
-        //           });
-        //     }),
-        );
+        home: MyHomePage());
   }
 }
 
@@ -49,38 +34,45 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  SharedPreferences prefs;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
+    return FutureBuilder(
         future: getApiKey(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
+            print('data is present');
             print('the api key is:' + apiKey);
-            print('there is data');
           } else {
-            //print('there is no data');
+            print('there is no data');
           }
-          return apiKey.length > 0 ? getHomePage(): LoginPage();
+          return apiKey.length > 0
+              ? getHomePage()
+              : LoginPage(
+                  loginPressed: login,
+                  newUser: false,
+                );
+          // return LoginPage();
         });
   }
 
+  void login() {
+    setState(() {
+      build(context);
+    });
+  }
+
   Future getApiKey() async {
-    String apiKey;
-    try{
-      apiKey = prefs.getString('API_Token');
-    }catch (Exception){
-      apiKey = "";
-    }
-    return apiKey;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print(prefs);
+    return prefs.getString('API_Token');
   }
 
   Widget getHomePage() {
     return MaterialApp(
       color: Colors.grey[850],
-      home: SafeArea(   
+      home: SafeArea(
         child: DefaultTabController(
           length: 3,
           child: Scaffold(
@@ -94,7 +86,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     // ),
                     HomeTab(),
                     Container(color: Colors.purpleAccent),
-                    Container(color: Colors.blue),
+                    Container(
+                      color: Colors.grey,
+                      child: Center(
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)),
+                          color: Colors.limeAccent,
+                          child: Text('Log Out'),
+                          onPressed: () {
+                            print('trying to log user out');
+                            logOut();
+                          },
+                        ),
+                      ),
+                    )
+                    //Container(color: Colors.blue),
                   ],
                 ),
                 Container(
@@ -112,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'My Tasks',
+                        'Today',
                         style: lobbyText,
                       ),
                       Container(),
@@ -142,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.add),
                 ),
                 Tab(
-                  icon: Icon(Icons.menu),
+                  icon: Icon(Icons.perm_identity),
                 )
               ],
               labelColor: redColor,
@@ -158,11 +165,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('API_Token', "");
+    setState(() {
+      build(context);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      prefs = sp;
-    });
   }
 }

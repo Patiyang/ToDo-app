@@ -4,17 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:todo_app/Models/Classes/registerUser.dart';
 
-//here we get the Api built with flask for registering a new user
+//here we make the post and get requests to the API
 
 class RegisterApi{
   Client client = Client();
-   final _apiKey = 'http://10.0.2.2:5000/api/register';
+   final _apiProvider = 'http://10.0.2.2:5000/api/register';
   Future<User> registerUser(
     String username, String firstname, String lastname, 
     String email,String password) async{
     print('you are in ');
     final response = await client
-    .post(_apiKey, 
+    .post(_apiProvider, 
      body: jsonEncode({  	
             "username":username,
             "first_name": firstname,
@@ -27,7 +27,7 @@ class RegisterApi{
     print(response.body.toString());
     final Map result = json.decode(response.body);
     if (response.statusCode == 201){
-      saveApiKey(result['data']['api_key'] );
+      saveApiKey(result['data']['api_key']);
       return User.fromJson(json.decode(response.body));
     }else{
       throw Exception('failed to register');
@@ -40,7 +40,7 @@ class RegisterApi{
 
 Future signInUser(
     String username, String password) async{
-    print('you are in ');
+    print('trying to sign in an existing user');
     final response = await client
     .post('http://10.0.2.2:5000/api/SignIn&username', 
      body: jsonEncode({  	
@@ -54,7 +54,7 @@ Future signInUser(
     if (response.statusCode == 201){
       saveApiKey(result['data']['api_key'] );
     }else{
-      throw Exception('failed to register');
+      throw Exception('failed to sign in');
     }
   }
 

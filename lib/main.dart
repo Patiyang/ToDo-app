@@ -3,9 +3,6 @@ import 'package:todo_app/Interfaces/Login/Login.dart';
 import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'package:todo_app/Models/Classes/registerUser.dart';
-import 'package:todo_app/bloc/blocs/register_bloc.dart';
 //import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
@@ -47,11 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0
-              ? getHomePage()
-              : LoginPage(
-                  loginPressed: login,
-                  newUser: false,
+          return apiKey.length > 0 ? getHomePage(): LoginPage(loginPressed: login, newUser: false,
                 );
           // return LoginPage();
         });

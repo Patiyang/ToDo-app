@@ -4,11 +4,9 @@ import 'package:todo_app/bloc/blocs/register_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   final newUser;
-  //final VoidCallback registerPressed;
   final VoidCallback loginPressed;
 
-  const LoginPage({Key key, this.newUser, this.loginPressed})
-      : super(key: key);
+  const LoginPage({Key key, this.newUser, this.loginPressed}): super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -102,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 20, bottom: 9),
+            padding: EdgeInsets.only(left: 20, bottom: 1),
             child: Column(
               children: <Widget>[
                 Text('Don\'t Have An Account Yet?', style: redTerms),
@@ -151,15 +149,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Text('Sign Up'),
             onPressed: () {
               // User user;
-              if (passwordCont != null ||
-                  usernameCont != null ||
-                  firstnameCont != null ||
-                  emailCont != null ||
-                  lastnameCont != null) {
-                bloc
-                    .registerUser(usernameCont.text, firstnameCont.text,
-                        lastnameCont.text, emailCont.text, passwordCont.text)
-                    .then((_) {
+              if (passwordCont != null || usernameCont != null ||
+                  firstnameCont != null || emailCont != null || lastnameCont != null) {
+                bloc.registerUser(usernameCont.text, firstnameCont.text,
+                        lastnameCont.text, emailCont.text, passwordCont.text).then((_) {
                   widget.loginPressed();
                 });
               }
@@ -169,10 +162,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  // void saveApiKey(User user) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('API_Token', user.apikey);
-  // }
-  // await prefs.getString(apiKey);
 }

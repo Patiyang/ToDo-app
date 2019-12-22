@@ -18,6 +18,7 @@ class RegisterBloc {
         username, firstname, lastname, email, password);
     _userSaver.sink.add(user);
   }
+
 //make a post request to the api and check whether the password and uname match
   signInUser(String username, String password, String apiKey) async {
     User user = await _repository.signIn(username, password, apiKey);
@@ -29,21 +30,24 @@ class RegisterBloc {
   }
 }
 
-class TaskBloc{
+class TaskBloc {
   final _repository = RegRepository();
-  final _taskSaver = PublishSubject<List<Task>>();
+  final _taskSubject = BehaviorSubject<List<Task>>();
+  String apiKey;
+  var _tasks = <Task>[];
 
-  Observable<List<Task>> get allTasks => _taskSaver.stream;
-
-   addTask(String apiKey) async{
-    List<Task> tasks = await _repository.addUserTasks(apiKey);
-    _taskSaver.sink.add(tasks);
-    return tasks;
+  TaskBloc(String api_key) {
+    this.apiKey = api_key;
+    _updateTasks(api_key).then((_) {
+      _taskSubject.add(_tasks);
+    });
   }
-dispose(){
-  _taskSaver.close();
-}
+  Stream<List<Task>> get tasks => _taskSubject.stream;
+  // Observable<List<Task>> get getTasks => _taskSaver.stream;
+  Future<List<Task>> _updateTasks(String apiKey) async {
+    return await _repository.addUserTasks(apiKey);
+  }
 }
 
 final userBloc = RegisterBloc();
-final taskBloc= TaskBloc();
+// final taskBloc = TaskBloc();

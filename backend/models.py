@@ -10,7 +10,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement = True)
-    api_key = db.Column(db.String) 
+    api_key = db.Column(db.String()) 
     username = db.Column(db.String(), primary_key=True, unique=True)
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())

@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String apiKey;
+  String apiKey = '';
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -43,12 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
-            print('data is present :' + apiKey);
+            // print('the api key is :' + apiKey);
             // print('the api key is:' + apiKey);
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0 ? getHomePage() : LoginPage(loginPressed: login, newUser: false);
+          return apiKey.length > 0
+              ? getHomePage()
+              : LoginPage(loginPressed: login, newUser: false);
           // return LoginPage();
         });
   }
@@ -62,10 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Future signInUser() async {
     String userName = '';
     apiKey = await getApiKey();
-    if (apiKey.length > 0) {
-      userBloc.signInUser('', '', apiKey);
+    if (apiKey != null) {
+      if (apiKey.length > 0) {
+        userBloc.signInUser('', '', apiKey);
+      } else {
+        print('no api key present');
+      }
     } else {
-      print('no api key present');
+      apiKey = '';
     }
     return apiKey;
   }

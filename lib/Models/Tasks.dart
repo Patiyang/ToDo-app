@@ -9,7 +9,7 @@ class Task {
   String taskid;
   String title;
 
-  Task(this.taskid, this.title, this.done, this.note);
+  Task(this.taskid, this.done, this.title,  this.note);
 
   Task.fromJson(Map<String, dynamic> parsedJson) {
     Task task = new Task(

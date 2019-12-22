@@ -12,7 +12,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTab extends State<HomeTab> {
-  List<Task> taskList = []; //added line
+  List<Task> taskList = [];
   Widget build(BuildContext context) {
     taskList = fetchTasks();
     return Container(

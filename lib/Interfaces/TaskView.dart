@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/Models/My_tasks.dart';
-import 'package:todo_app/Models/Classes/Tasks.dart';
+import 'package:todo_app/Interfaces/taskTiles.dart';
+import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 
 class HomeTab extends StatefulWidget {
@@ -29,7 +29,7 @@ class _HomeTab extends State<HomeTab> {
 
   Widget _buildListTile(BuildContext context, Task item) {
     return ListTile(
-     key: Key(item.taskID), 
+     key: Key(item.taskid), 
      title: Todo(
        title: item.title,
      ),
@@ -68,7 +68,7 @@ class _HomeTab extends State<HomeTab> {
 
   List<Task> fetchTasks() {
     for (int i = 0; i < 5; i++) {
-      taskList.add(Task('my first todo '+ i.toString(), false, i.toString()));
+      taskList.add(Task('my first todo '+ i.toString(), false, i.toString(), i.toString()));
     }
     return taskList;
   }

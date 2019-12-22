@@ -1,13 +1,16 @@
+import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/bloc/resources/repository.dart';
-import 'package:todo_app/Models/Classes/registerUser.dart';
+import 'package:todo_app/Models/Users.dart';
 import 'package:rxdart/rxdart.dart';
 //import 'package:observable/observable.dart';
 
 class RegisterBloc {
   final _repository = RegRepository();
   final _userSaver = PublishSubject<User>();
+  final _taskSaver = PublishSubject<Task>();
 
   Observable<User> get allFields => _userSaver.stream;
+  Observable<Task> get allTasks => _taskSaver.stream;
 
   registerUser(String username, String firstname, String lastname, String email,
       String password) async {
@@ -26,4 +29,20 @@ class RegisterBloc {
   }
 }
 
-final bloc = RegisterBloc();
+class TaskBloc{
+  final _repository = RegRepository();
+  final _taskSaver = PublishSubject<List<Task>>();
+
+  Observable<List<Task>> get allTasks => _taskSaver.stream;
+
+   addTask(String apiKey) async{
+    List<Task> task = await _repository.addUserTasks(apiKey);
+    _taskSaver.sink.add(task);
+  }
+dispose(){
+  _taskSaver.close();
+}
+}
+
+final userBloc = RegisterBloc();
+final taskBloc= TaskBloc();

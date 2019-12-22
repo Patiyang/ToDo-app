@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Interfaces/Login/Login.dart';
-import 'package:todo_app/Interfaces/Own_tasks.dart';
+import 'package:todo_app/Interfaces/TaskView.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_app/bloc/blocs/register_bloc.dart';
+import 'package:todo_app/bloc/blocs/blocs.dart';
 
 import 'Styling/global_styling.dart';
 //import 'Interfaces/User Profile/profile.dart';
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String userName = '';
     String apiKey = await getApiKey();
     if (apiKey.length > 0) {
-      bloc.signInUser('', '', apiKey);
+      userBloc.signInUser('', '', apiKey);
     } else {
       print('no api key present');
     }

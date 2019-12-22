@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
-import 'package:todo_app/bloc/blocs/register_bloc.dart';
+import 'package:todo_app/bloc/blocs/blocs.dart';
+
 
 class LoginPage extends StatefulWidget {
   final newUser;
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                         if (unameText.text != null || password.text != null){
-                          bloc.signInUser(unameText.text, password.text,'').then((_){
+                          userBloc.signInUser(unameText.text, password.text,'').then((_){
                             widget.loginPressed();
                           });
                         }
@@ -153,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
               // User user;
               if (passwordCont != null || usernameCont != null ||
                   firstnameCont != null || emailCont != null || lastnameCont != null) {
-                bloc.registerUser(usernameCont.text, firstnameCont.text,
+                userBloc.registerUser(usernameCont.text, firstnameCont.text,
                         lastnameCont.text, emailCont.text, passwordCont.text).then((_) {
                   widget.loginPressed();
                 });

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:todo_app/Models/Classes/registerUser.dart';
 
-//here we make the post and get requests to the API
+//here we make the post requests to the API
 
 class RegisterApi{
   Client client = Client();

@@ -4,6 +4,8 @@ import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/bloc/blocs/register_bloc.dart';
+
+import 'Styling/global_styling.dart';
 //import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
@@ -35,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      
         future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           String apiKey = '';
@@ -46,7 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0 ? getHomePage(): LoginPage(loginPressed: login, newUser: false,
+          return apiKey.length > 0
+              ? getHomePage()
+              : LoginPage(
+                  loginPressed: login,
+                  newUser: false,
                 );
           // return LoginPage();
         });
@@ -58,12 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future signInUser()async{
+  Future signInUser() async {
     String userName = '';
     String apiKey = await getApiKey();
-    if(apiKey.length>0){
-        bloc.signInUser('', '', apiKey);
-    }else{
+    if (apiKey.length > 0) {
+      bloc.signInUser('', '', apiKey);
+    } else {
       print('no api key present');
     }
     return apiKey;
@@ -90,14 +95,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     //   child: Home(),
                     // ),
                     HomeTab(),
-                    Container(color: Colors.purpleAccent),
+                    Container(color: greyColor),
                     Container(
-                      color: Colors.grey,
+                      color: greyColor,
                       child: Center(
                         child: FlatButton(
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
-                          color: Colors.limeAccent,
+                          color: Colors.lightGreen[100],
                           child: Text('Log Out'),
                           onPressed: () {
                             print('trying to log user out');

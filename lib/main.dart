@@ -3,6 +3,7 @@ import 'package:todo_app/Interfaces/Login/Login.dart';
 import 'package:todo_app/Interfaces/Own_tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/bloc/blocs/register_bloc.dart';
 //import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
@@ -34,13 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getApiKey(),
+      
+        future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
             print('data is present');
-            print('the api key is:' + apiKey);
+            // print('the api key is:' + apiKey);
           } else {
             print('there is no data');
           }
@@ -56,9 +58,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future signInUser()async{
+    String userName = '';
+    String apiKey = await getApiKey();
+    if(apiKey.length>0){
+        bloc.signInUser('', '', apiKey);
+    }else{
+      print('no api key present');
+    }
+    return apiKey;
+  }
+
   Future getApiKey() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print(prefs);
     return prefs.getString('API_Token');
   }
 
@@ -120,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 185),
+                  margin: EdgeInsets.only(left: 178),
                   height: 290,
                   child: FloatingActionButton(
                     child: Icon(

@@ -9,6 +9,8 @@ import 'package:todo_app/Models/Classes/registerUser.dart';
 class RegisterApi{
   Client client = Client();
    final _apiProvider = 'http://10.0.2.2:5000/api/register';
+
+
   Future<User> registerUser(
     String username, String firstname, String lastname, 
     String email,String password) async{
@@ -33,16 +35,15 @@ class RegisterApi{
       throw Exception('failed to register');
     }
   }
- saveApiKey(String apiKey) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('API_Token', apiKey);
-  }
 
-Future signInUser(
-    String username, String password) async{
+Future<User>signInUser(
+    String username, String password, String apiKey) async{
     print('trying to sign in an existing user');
     final response = await client
-    .post('http://10.0.2.2:5000/api/SignIn&username', 
+    .post('http://10.0.2.2:5000/api/signin', 
+    headers: {
+      "Authorization":apiKey
+    },
      body: jsonEncode({  	
             "username":username,
             "password":password
@@ -53,9 +54,15 @@ Future signInUser(
     final Map result = json.decode(response.body);
     if (response.statusCode == 201){
       saveApiKey(result['data']['api_key'] );
+      return User.fromJson(json.decode(response.body));
     }else{
       throw Exception('failed to sign in');
     }
+  }
+
+   saveApiKey(String apiKey) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('API_Token', apiKey);
   }
 
 }

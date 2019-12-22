@@ -24,24 +24,9 @@ class User(db.Model):
         self.last_name = last_name
         self.password = password
         self.email = email
-
-"""class Tasks(db.Model):
-    __table_name__ = 'tasks'
-    id = db.Column(db.Integer, primary_key=True, unique=True)
-    taskname = db.Column(db.String(), primary_key=True, unique=True)
-    description = db.Column(db.String())
-    task_summary = db.Column(db.String())
-    date = db.Column(db.String())
-    tags = db.Column(db.String())
-
-    def __init__(self, id, taskname, description, task_summary, date, tags):
-        self.id = id
-        self.taskname = taskname
-        self.description = description
-        self.task_summary = task_summary
-        self.date = date
-        self.tags = tags"""
-
+    
+    
+    
 class UserSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
     api_key = fields.String()
@@ -51,18 +36,10 @@ class UserSchema(ma.Schema):
     email = fields.String()
     password = fields.String()
 
-"""class TaskSchema(ma.Schema):
-    id = fields.Integer()
-    taskname = fields.Integer()
-    description = fields.Integer()
-    task_summary = fields.Integer()
-    date = fields.Integer()
-    tags = fields.Integer()
-    """
-def __repr__(self):
+    def __repr__(self):
         return '<id {}>'.format(self.id)
 
-def serialize(self):
+    def serialize(self):
         return{
             'id': self.id,
             'api_key':self.api_key,
@@ -71,5 +48,46 @@ def serialize(self):
             'last_name': self.last_name,
             'email': self.email,
             'password': self.password
+        }
 
+class Task(db.Model):
+    __table_name__ = 'tasks'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    done = db.Column(db.Boolean(), nullable = False, default = False)
+    repeats = db.Column(db.String())
+    deadline = db.Column(db.String())
+    reminder = db.Column(db.String())
+    note = db.Column(db.String())
+
+    def __init__(self, user_id, done, repeats, deadline, reminder, note):
+        self.user_id = user_id
+        self.done = done
+        self.repeats = repeats
+        self.deadline = deadline
+        self.reminder = reminder
+        self.note =note
+
+class TaskSchema(ma.Schema):
+    id = fields.Integer()
+    user_id = fields.String()
+    done = fields.String()
+    repeats = fields.String()
+    deadline = fields.String()
+    reminder = fields.String()
+    note = fields.String()
+   
+def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+def serialize(self):
+        return{
+            'id': self.id,
+            'user_id':self.user_id,
+            'done': self.done,
+            'repeats': self.repeats,
+            'deadline': self.deadline,
+            'reminder': self.reminder,
+            'note': self.note
+            # 'password': self.password
         }

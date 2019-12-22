@@ -15,9 +15,9 @@ class RegisterBloc {
         username, firstname, lastname, email, password);
     _userSaver.sink.add(user);
   }
-
-  signInUser(String username, String password) async {
-    User user = await _repository.signIn(username, password);
+//make a post request to the api and check whether the password and uname match
+  signInUser(String username, String password, String apiKey) async {
+    User user = await _repository.signIn(username, password, apiKey);
     _userSaver.sink.add(user);
   }
 

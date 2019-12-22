@@ -11,7 +11,6 @@ class RegRepository{
      String email, String password) =>
   apiProvider.registerUser(username, firstname, lastname, email, password );
 
-  Future<User> signIn(
-    String username,String password) =>
-  apiProvider.signInUser(username, password );
+  Future<User> signIn(String username,String password, String apiKey) =>
+  apiProvider.signInUser(username, password, apiKey );
 }

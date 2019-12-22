@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                         if (unameText.text != null || password.text != null){
-                          bloc.signInUser(unameText.text, password.text).then((){
+                          bloc.signInUser(unameText.text, password.text,'').then((_){
                             widget.loginPressed();
                           });
                         }
@@ -109,7 +109,9 @@ class _LoginPageState extends State<LoginPage> {
                     'Create one',
                     style: redTodoTitle,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                   
+                  },
                 )
               ],
             ),

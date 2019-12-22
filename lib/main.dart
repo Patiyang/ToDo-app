@@ -34,25 +34,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String apiKey;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          String apiKey = '';
+          // String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
-            print('data is present');
+            print('data is present :' + apiKey);
             // print('the api key is:' + apiKey);
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0
-              ? getHomePage()
-              : LoginPage(
-                  loginPressed: login,
-                  newUser: false,
-                );
+          return apiKey.length > 0 ? getHomePage() : LoginPage(loginPressed: login, newUser: false);
           // return LoginPage();
         });
   }
@@ -65,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future signInUser() async {
     String userName = '';
-    String apiKey = await getApiKey();
+    apiKey = await getApiKey();
     if (apiKey.length > 0) {
       userBloc.signInUser('', '', apiKey);
     } else {
@@ -94,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     //   color: Colors.black87,
                     //   child: Home(),
                     // ),
-                    HomeTab(),
+                    HomeTab(apiKey: apiKey),
                     Container(color: greyColor),
                     Container(
                       color: greyColor,

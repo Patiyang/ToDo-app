@@ -36,8 +36,9 @@ class TaskBloc{
   Observable<List<Task>> get allTasks => _taskSaver.stream;
 
    addTask(String apiKey) async{
-    List<Task> task = await _repository.addUserTasks(apiKey);
-    _taskSaver.sink.add(task);
+    List<Task> tasks = await _repository.addUserTasks(apiKey);
+    _taskSaver.sink.add(tasks);
+    return tasks;
   }
 dispose(){
   _taskSaver.close();

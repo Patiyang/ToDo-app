@@ -16,6 +16,6 @@ class RegRepository{
   Future<User> signIn(String username,String password, String apiKey) =>
   apiProvider.signInUser(username, password, apiKey );
 
-  Future<List<Task>> addUserTasks(String apiKey)=>
+  Future/*<List<Task>> */addUserTasks(String apiKey)=>
   apiProvider.addTasks(apiKey);
 }

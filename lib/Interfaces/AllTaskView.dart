@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/Interfaces/taskTiles.dart';
 import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
+import 'package:todo_app/bloc/blocs/blocs.dart';
 
 class HomeTab extends StatefulWidget {
-  HomeTab({Key key, this.title}) : super(key: key);
-  final String title;
+  final String apiKey;
+  HomeTab({Key key, /*this.title,*/ this.apiKey}) : super(key: key);
+  // final String title;
 
   @override
   _HomeTab createState() => _HomeTab();
@@ -14,10 +16,28 @@ class HomeTab extends StatefulWidget {
 class _HomeTab extends State<HomeTab> {
   List<Task> taskList = [];
   Widget build(BuildContext context) {
-    taskList = fetchTasks();
+    // taskList = fetchTasks();
     return Container(
       color: greyColor,
-      child: _simpleReorderable(context),
+      child: FutureBuilder(
+        future: fetchTasks(),
+        // initialData: InitialData,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            // taskList = snapshot.data;
+            // print('task data is present');
+            return Container();
+          }
+          return ListView.builder(
+            itemCount: taskList.length,
+            itemBuilder: (BuildContext context, int index) {
+              taskList = snapshot.data;
+              return _simpleReorderable(context, taskList);
+            },
+          );
+        },
+      ),
       // child: ReorderableListView(
       //   physics: const BouncingScrollPhysics(),
       //   padding: EdgeInsets.only(top: 270),
@@ -29,29 +49,30 @@ class _HomeTab extends State<HomeTab> {
 
   Widget _buildListTile(BuildContext context, Task item) {
     return ListTile(
-     key: Key(item.taskid), 
-     title: Todo(
-       title: item.title,
-     ),
-     );
+      key: Key(item.taskid.toString()),
+      title: Todo(
+        title: item.title,
+      ),
+    );
   }
 
-  Widget _simpleReorderable(BuildContext context) {
-     //Widget _task = BouncingScrollPhysics();
+  Widget _simpleReorderable(BuildContext context, List<Task> taskList) {
+    print(taskList.length);
+    //Widget _task = BouncingScrollPhysics();
     return Theme(
-      data: ThemeData(
-        canvasColor: Colors.transparent
-      ),
-          child: ReorderableListView(
+      data: ThemeData(canvasColor: Colors.transparent),
+      child: ReorderableListView(
           padding: EdgeInsets.only(top: 300.0),
-          children:taskList.map((Task item) => _buildListTile(context, item)).toList(),
+          children: taskList
+              .map((Task item) => _buildListTile(context, item))
+              .toList(),
           onReorder: (oldIndex, newIndex) {
             setState(() {
               Task item = taskList[oldIndex];
               taskList.remove(item);
               taskList.insert(newIndex, item);
             });
-          //physics: BouncingScrollPhysics();
+            //physics: BouncingScrollPhysics();
           }),
     );
   }
@@ -66,10 +87,8 @@ class _HomeTab extends State<HomeTab> {
     });
   }
 
-  List<Task> fetchTasks() {
-    for (int i = 0; i < 5; i++) {
-      taskList.add(Task('my first todo '+ i.toString(), false, i.toString(), i.toString()));
-    }
-    return taskList;
+  Future<List<Task>> fetchTasks() async {
+    List<Task> tasks = await taskBloc.addTask(widget.apiKey);
+    return tasks;
   }
 }

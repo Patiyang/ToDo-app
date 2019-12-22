@@ -6,7 +6,7 @@ class Task {
   String repeats;
   DateTime deadline;
   List<DateTime> reminders;
-  String taskid;
+  int taskid;
   String title;
 
   Task(this.taskid, this.done, this.title,  this.note);

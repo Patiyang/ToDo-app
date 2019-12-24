@@ -34,8 +34,9 @@ class _HomeTab extends State<HomeTab> {
       color: greyColor,
       child: StreamBuilder(
         stream: taskBloc.tasks, //pass the getter of the stream here
-        initialData: [], //List<Task>(),//the initial data
+        initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
+          print(snapshot.data);
           // print('DATA is:' + snapshot.data.toString());
           return _simpleReorderable(context, taskList);
         },

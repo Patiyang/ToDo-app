@@ -75,6 +75,7 @@ class RegisterApi {
 
   saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('API_Token', apiKey);
+    // await prefs.setString('API_Token', apiKey);
+    prefs.setString('API_Token', apiKey);
   }
 }

@@ -23,7 +23,8 @@ class Tasks(Resource):
                     repeats= json_data['repeats'],
                     deadline= json_data['deadline'],
                     reminder= json_data['reminder'],
-                    note= json_data['note']
+                    note= json_data['note'],
+                    title= json_data['title']
                 )
                 db.session.add(tasks)
                 db.session.commit()

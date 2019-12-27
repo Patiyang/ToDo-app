@@ -36,20 +36,17 @@ class TaskBloc {
   String apiKey;
   var _tasks = <Task>[];
 
-  TaskBloc(String api_key) {
-    this.apiKey = api_key;
-    _updateTasks(api_key).then((_) {
+  TaskBloc(String apikey) {
+    this.apiKey = apikey;
+    _updateTasks(apikey).then((_) {
       _taskSubject.add(_tasks);
     });
   }
   Stream<List<Task>> get tasks => _taskSubject.stream;
   // Observable<List<Task>> get getTasks => _taskSaver.stream;
-  Future<List<Task>> _updateTasks(String apiKey) async {
-    List<Task> tasks = await _repository.getUserTasks(apiKey);
-    for (Task task in tasks) {
-      print(task.toString());
-    }
-    return tasks;
+  Future<Null> _updateTasks(String apiKey) async {
+    _tasks = await _repository.getUserTasks(apiKey);
+   
   }
 }
 

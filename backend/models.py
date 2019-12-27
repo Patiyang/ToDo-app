@@ -59,23 +59,26 @@ class Task(db.Model):
     deadline = db.Column(db.String())
     reminder = db.Column(db.String())
     note = db.Column(db.String())
+    title = db.Column(db.String())
 
-    def __init__(self, user_id, done, repeats, deadline, reminder, note):
+    def __init__(self, user_id, done, repeats, deadline, reminder, note, title):
         self.user_id = user_id
         self.done = done
         self.repeats = repeats
         self.deadline = deadline
         self.reminder = reminder
         self.note =note
+        self.title = title
 
 class TaskSchema(ma.Schema):
     id = fields.Integer()
-    user_id = fields.String()
-    done = fields.String()
+    user_id = fields.Integer()
+    done = fields.Boolean()
     repeats = fields.String()
     deadline = fields.String()
     reminder = fields.String()
     note = fields.String()
+    title = fields.String()
    
 def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -88,6 +91,7 @@ def serialize(self):
             'repeats': self.repeats,
             'deadline': self.deadline,
             'reminder': self.reminder,
-            'note': self.note
+            'note': self.note,
+            'title':self.title
             # 'password': self.password
         }

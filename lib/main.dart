@@ -43,14 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
-            // print('the api key is :' + apiKey);
-            // print('the api key is:' + apiKey);
+             print('the api key is :' + apiKey);
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0
-              ? getHomePage()
-              : LoginPage(loginPressed: login, newUser: false);
+          return apiKey.length > 0 ? getHomePage() : LoginPage(loginPressed: login, newUser: false);
           // return LoginPage();
         });
   }
@@ -184,8 +181,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 }

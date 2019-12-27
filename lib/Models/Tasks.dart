@@ -9,14 +9,17 @@ class Task {
   int taskid;
   String title;
 
-  Task(this.taskid, this.done, this.title,  this.note);
+  Task(this.title, this.taskid, this.done, this.note);
 
-  Task.fromJson(Map<String, dynamic> parsedJson) {
-    Task task = new Task(
-      parsedJson['id'],
+  factory Task.fromJson(Map<String, dynamic> parsedJson) {
+    // for(String key in parsedJson.keys){
+    //   print(key);
+    // }
+    return Task(
       parsedJson['title'],
+      parsedJson['id'], 
       parsedJson['done'],
       parsedJson['note']
-    );
+      );
   }
 }

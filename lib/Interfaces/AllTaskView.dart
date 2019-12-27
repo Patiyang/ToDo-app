@@ -14,12 +14,13 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTab extends State<HomeTab> {
-  List<Task> taskList = [];
+  List<dynamic> taskList = []; //CHANGED HERE FROM 
   TaskBloc taskBloc;
 
   @override
   void initState() {
     taskBloc = TaskBloc(widget.apiKey);
+    super.initState(); // PAY ATTTENTION TO THIS !!!!!!
   }
 
   @override
@@ -36,8 +37,8 @@ class _HomeTab extends State<HomeTab> {
         stream: taskBloc.tasks, //pass the getter of the stream here
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(snapshot.data);
-          // print('DATA is:' + snapshot.data.toString());
+          //erprint(snapshot.data);
+          taskList = snapshot.data;
           return _simpleReorderable(context, taskList);
         },
       ),

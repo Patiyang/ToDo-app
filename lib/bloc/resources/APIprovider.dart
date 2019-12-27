@@ -66,7 +66,10 @@ class RegisterApi {
           print(Exception);
         }
       }
-      //  print(tasks.toString());
+      // for (Task task in tasks){
+      //   print(task.taskid);
+      // }
+        //print(tasks.toString());
       return tasks;
     } else {
       throw Exception('failed to load post');

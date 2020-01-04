@@ -7,10 +7,10 @@ import 'package:rxdart/rxdart.dart';
 class RegisterBloc {
   final _repository = RegRepository();
   final _userSaver = PublishSubject<User>();
-  final _taskSaver = PublishSubject<Task>();
+ // final _taskSaver = PublishSubject<Task>();
 
   Observable<User> get allFields => _userSaver.stream;
-  Observable<Task> get allTasks => _taskSaver.stream;
+ // Observable<Task> get allTasks => _taskSaver.stream;
 
   registerUser(String username, String firstname, String lastname, String email,
       String password) async {
@@ -43,10 +43,9 @@ class TaskBloc {
     });
   }
   Stream<List<Task>> get tasks => _taskSubject.stream;
-  // Observable<List<Task>> get getTasks => _taskSaver.stream;
+
   Future<Null> _updateTasks(String apiKey) async {
     _tasks = await _repository.getUserTasks(apiKey);
-   
   }
 }
 

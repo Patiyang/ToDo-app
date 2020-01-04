@@ -14,7 +14,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTab extends State<HomeTab> {
-  List<dynamic> taskList = []; //CHANGED HERE FROM 
+  List<dynamic> taskList = []; //CHANGED HERE FROM
   TaskBloc taskBloc;
 
   @override
@@ -37,37 +37,20 @@ class _HomeTab extends State<HomeTab> {
         stream: taskBloc.tasks, //pass the getter of the stream here
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          //erprint(snapshot.data);
           taskList = snapshot.data;
-          return _simpleReorderable(context, taskList);
+          // return _simpleReorderable(context, taskList);
+          if (snapshot.hasData && snapshot != null) {
+            if (snapshot.data.length > 0) {
+              return _simpleReorderable(context, taskList);
+            } else if (snapshot.data.length == 0) {
+              return Center(
+                child: Text('NO TASKS YET',style: TextStyle(color: Colors.white),),
+              );
+            }
+          }
+          return CircularProgressIndicator();
         },
       ),
-
-      // FutureBuilder(
-      //   future: fetchTasks(),
-      //   // initialData: InitialData,
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.none &&
-      //         snapshot.hasData == null) {
-      //       // taskList = snapshot.data;
-      //       // print('task data is present');
-      //       return Container();
-      //     }
-      //     return ListView.builder(
-      //       itemCount: taskList.length,
-      //       itemBuilder: (BuildContext context, int index) {
-      //         taskList = snapshot.data;
-      //         return _simpleReorderable(context, taskList);
-      //       },
-      //     );
-      //   },
-      // ),
-      // child: ReorderableListView(
-      //   physics: const BouncingScrollPhysics(),
-      //   padding: EdgeInsets.only(top: 270),
-      //   children: tasks,
-      //   onReorder: _onReorder
-      // ),
     );
   }
 

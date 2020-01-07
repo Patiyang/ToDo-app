@@ -34,11 +34,9 @@ class RegisterApi {
 
   Future<User> signInUser(
       String username, String password, String apiKey) async {
-    // print('trying to sign in an existing user');
     final response = await client.post('http://10.0.2.2:5000/api/signin',
         headers: {"Authorization": apiKey},
         body: jsonEncode({"username": username, "password": password}));
-    // print(response.body.toString());
     final Map result = json.decode(response.body);
     if (response.statusCode == 201) {
       saveApiKey(result['data']['api_key']);
@@ -48,8 +46,25 @@ class RegisterApi {
     }
   }
 
-  Future<List<Task>> addTasks(String apiKey) async {
-    // print('attempting to add a new task');
+  Future<Task> addTask(String apiKey, String taskName, String deadline) async {
+    final response = await client.post('http://10.0.2.2:5000/api/tasks',
+        headers: {"Authorization": apiKey},
+        body: jsonEncode({
+          "title": taskName,
+          "deadline": deadline,
+          "done": false,
+          "reminder": "",
+          "note": "",
+          "repeats":""
+        }));
+    if (response.statusCode == 201) {
+      print('task added');
+    } else {
+      throw Exception('failed to add task');
+    }
+  }
+
+  Future<List<Task>> getTask(String apiKey) async {
     final response = await client.get(
       'http://10.0.2.2:5000/api/tasks',
       headers: {"Authorization": apiKey},
@@ -58,18 +73,12 @@ class RegisterApi {
     if (response.statusCode == 201) {
       List<Task> tasks = [];
       for (Map json_ in result['data']) {
-        // print('\n' +json_['done'].toString());
         try {
           tasks.add(Task.fromJson(json_));
-          // print(json_);
         } catch (Exception) {
           print(Exception);
         }
       }
-      // for (Task task in tasks){
-      //   print(task.taskid);
-      // }
-        //print(tasks.toString());
       return tasks;
     } else {
       throw Exception('failed to load post');
@@ -78,7 +87,6 @@ class RegisterApi {
 
   saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('API_Token', apiKey);
     prefs.setString('API_Token', apiKey);
   }
 }

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/bloc/blocs/blocs.dart';
 
 import 'Styling/global_styling.dart';
+import 'bloc/resources/repository.dart';
 //import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
@@ -19,8 +20,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'todo app',
         theme: ThemeData(
-          primarySwatch: Colors.grey,
-        ),
+            primarySwatch: Colors.grey, dialogBackgroundColor: greyColor),
         home: MyHomePage());
   }
 }
@@ -35,6 +35,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String apiKey = '';
+  TaskBloc taskBloc;
+  Repository _repository = Repository();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -43,11 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
-             print('the api key is :' + apiKey);
+            taskBloc = TaskBloc(apiKey);
+            print('the api key is :' + apiKey);
           } else {
             print('there is no data');
           }
-          return apiKey.length > 0 ? getHomePage() : LoginPage(loginPressed: login, newUser: false);
+          return apiKey.length > 0
+              ? getHomePage()
+              : LoginPage(loginPressed: login, newUser: false);
           // return LoginPage();
         });
   }
@@ -80,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget getHomePage() {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       color: Colors.grey[850],
       home: SafeArea(
         child: DefaultTabController(
@@ -135,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 178),
+                  margin: EdgeInsets.only(left: 185),
                   height: 290,
                   child: FloatingActionButton(
                     child: Icon(
@@ -143,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       size: 50,
                     ),
                     backgroundColor: redColor,
-                    onPressed: () {},
+                    onPressed: _showDialog,
                   ),
                 )
               ],
@@ -171,6 +178,100 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _showDialog() {
+    TextEditingController taskNameCont = new TextEditingController();
+    TextEditingController deadlineCont = new TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          content: Container(
+            height: 200,
+            width: 340,
+            color: greyColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Center(
+                    child: Text(
+                  'Add New Task',
+                  style: taskHeading,
+                )),
+                Container(
+                  child: new Theme(
+                    data: new ThemeData(hintColor: Colors.white70),
+                    child: TextField(
+                      controller: taskNameCont,
+                      style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
+                      decoration: InputDecoration(
+                        hintText: 'Task Name',
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white70)),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Theme(
+                    data: new ThemeData(hintColor: Colors.white70),
+                    child: TextField(
+                      controller: deadlineCont,
+                      style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
+                      decoration: InputDecoration(
+                        hintText: 'Deadline',
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white70)),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(right: 20, left: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      RaisedButton(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+                          child: Text('Submit', style: taskHeading),
+                          color: redColor,
+                          onPressed: () {
+                            print(taskNameCont);
+                            if (taskNameCont.text != null) {
+                              addTask(taskNameCont.text, deadlineCont.text);
+                              Navigator.pop(context);
+                            }
+                            //taskName.text == null ?? addTask(taskName.text, deadline.text);
+                          }),
+                      RaisedButton(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7))),
+                          child: Text('Cancel', style: taskHeading),
+                          color: redColor,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void addTask(String taskName, String deadline) async {
+    await _repository.addUserTask(apiKey, taskName, deadline);
   }
 
   logOut() async {

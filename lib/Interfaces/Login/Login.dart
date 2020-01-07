@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/bloc/blocs/blocs.dart';
 
-
 class LoginPage extends StatefulWidget {
   final newUser;
   final VoidCallback loginPressed;
 
-  const LoginPage({Key key, this.newUser, this.loginPressed}): super(key: key);
+  const LoginPage({Key key, this.newUser, this.loginPressed}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -89,11 +88,13 @@ class _LoginPageState extends State<LoginPage> {
                       style: redTodoTitle,
                     ),
                     onPressed: () {
-                        if (unameText.text != null || password.text != null){
-                          userBloc.signInUser(unameText.text, password.text,'').then((_){
-                            widget.loginPressed();
-                          });
-                        }
+                      if (unameText.text != null || password.text != null) {
+                        userBloc
+                            .signInUser(unameText.text, password.text, '')
+                            .then((_) {
+                          widget.loginPressed();
+                        });
+                      }
                     },
                   ),
                 )
@@ -106,14 +107,16 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Text('Don\'t Have An Account Yet?', style: redTerms),
                 FlatButton(
-                  child: Text(
-                    'Create one',
-                    style: redTodoTitle,
-                  ),
-                  onPressed: () {
-                   
-                  },
-                )
+                    child: Text(
+                      'Create one',
+                      style: redTodoTitle,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => getSignupPage()));
+                    })
               ],
             ),
           ),
@@ -123,45 +126,52 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget getSignupPage() {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: emailCont,
-            decoration: InputDecoration(hintText: 'Email'),
-          ),
-          TextField(
-            controller: usernameCont,
-            decoration: InputDecoration(hintText: 'Username'),
-          ),
-          TextField(
-            controller: firstnameCont,
-            decoration: InputDecoration(hintText: 'First Name'),
-          ),
-          TextField(
-            controller: lastnameCont,
-            decoration: InputDecoration(hintText: 'Last Name'),
-          ),
-          TextField(
-            controller: passwordCont,
-            decoration: InputDecoration(hintText: 'Password'),
-          ),
-          FlatButton(
-            color: Colors.green,
-            child: Text('Sign Up'),
-            onPressed: () {
-              // User user;
-              if (passwordCont != null || usernameCont != null ||
-                  firstnameCont != null || emailCont != null || lastnameCont != null) {
-                userBloc.registerUser(usernameCont.text, firstnameCont.text,
-                        lastnameCont.text, emailCont.text, passwordCont.text).then((_) {
-                  widget.loginPressed();
-                });
-              }
-            },
-          )
-        ],
+    return Scaffold(
+          body: Container(
+        margin: EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: emailCont,
+              decoration: InputDecoration(hintText: 'Email'),
+            ),
+            TextField(
+              controller: usernameCont,
+              decoration: InputDecoration(hintText: 'Username'),
+            ),
+            TextField(
+              controller: firstnameCont,
+              decoration: InputDecoration(hintText: 'First Name'),
+            ),
+            TextField(
+              controller: lastnameCont,
+              decoration: InputDecoration(hintText: 'Last Name'),
+            ),
+            TextField(
+              controller: passwordCont,
+              decoration: InputDecoration(hintText: 'Password'),
+            ),
+            FlatButton(
+              color: Colors.green,
+              child: Text('Sign Up'),
+              onPressed: () {
+                // User user;
+                if (passwordCont != null ||
+                    usernameCont != null ||
+                    firstnameCont != null ||
+                    emailCont != null ||
+                    lastnameCont != null) {
+                  userBloc
+                      .registerUser(usernameCont.text, firstnameCont.text,
+                          lastnameCont.text, emailCont.text, passwordCont.text)
+                      .then((_) {
+                    widget.loginPressed();
+                  });
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

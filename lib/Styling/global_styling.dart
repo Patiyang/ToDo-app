@@ -13,7 +13,7 @@ TextStyle myTasksHeading = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,
     color: greyColor,
-    fontSize: 22);
+    fontSize: 19);
 
 TextStyle redTodoTitle = TextStyle(
     fontFamily: 'Sans',
@@ -32,6 +32,18 @@ TextStyle welcome = TextStyle(
     fontWeight: FontWeight.bold,
     color: lightBlue,
     fontSize: 35);
+
+TextStyle taskHeading = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.bold,
+    color: Colors.white70,
+    fontSize: 17);
+
+TextStyle taskbuttons = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.bold,
+    color: Colors.white70,
+    fontSize: 13);
 
 
 

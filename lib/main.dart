@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 185),
+                  margin: EdgeInsets.only(left: 175),
                   height: 290,
                   child: FloatingActionButton(
                     child: Icon(
@@ -210,7 +210,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
                       decoration: InputDecoration(
                         hintText: 'Task Name',
-                        errorText: checkTask(taskNameCont.text),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white70)),
                       ),
@@ -245,25 +244,33 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: redColor,
                           onPressed: () {
                             print(taskNameCont);
-                            if (taskNameCont.text == '' && deadlineCont.text == '') {
+                            if (taskNameCont.text == '') {
                               Fluttertoast.showToast(
-                                  msg: "fields cannot be empty",
+                                  msg: "the task field cannot be blank",
                                   toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIos: 1,
-                                  backgroundColor: Colors.white,
+                                  gravity: ToastGravity.CENTER,
+                                  // backgroundColor: Colors.white,
                                   textColor: Colors.black,
-                                  fontSize: 16.0);
-                            } else if (taskNameCont.text != null && deadlineCont.text != null) {
+                                  fontSize: 13.0);
+                            } 
+                            else if(deadlineCont.text == ''){
+                              Fluttertoast.showToast(
+                                toastLength: Toast.LENGTH_SHORT,
+                                msg: 'you need to enter deadline',
+                                gravity: ToastGravity.CENTER,
+                                fontSize: 7
+                              );
+                            }
+                            else if (taskNameCont.text != null && deadlineCont.text != null) {
                               addTask(taskNameCont.text, deadlineCont.text);
                               Fluttertoast.showToast(
                                   msg: "task successfuly added",
                                   toastLength: Toast.LENGTH_LONG,
                                   gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIos: 1,
-                                  backgroundColor: Colors.white,
+                                  // timeInSecForIos: 1,
+                                  // backgroundColor: Colors.white,
                                   textColor: Colors.black,
-                                  fontSize: 16.0);
+                                  fontSize: 10.0);
                                   Navigator.pop(context);
                             }
                           }),
@@ -288,12 +295,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  String checkTask(String value) {
-    if (!(value.length == 0) && value.isNotEmpty) {
-      return "the task should be of reasonable length";
-    }
-    return null;
-  }
 
   void addTask(String taskName, String deadline) async {
     await _repository.addUserTask(apiKey, taskName, deadline);

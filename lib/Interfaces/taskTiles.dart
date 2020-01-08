@@ -5,14 +5,14 @@ class Todo extends StatelessWidget {
   final String title;
   final String keyValue;
   Todo({this.title, this.keyValue});
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
       key: Key(keyValue),
       padding: EdgeInsets.only(top: 7),
       height: 100,
-      margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
+      margin: EdgeInsets.only(left: 1, right: 5, bottom: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: redColor,
@@ -25,21 +25,31 @@ class Todo extends StatelessWidget {
             )
           ]),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Radio(
-            
-          ),
           Column(
             children: <Widget>[
-              Text(
-              title,
-              style: myTasksHeading
-              ,
+              Container(
+                padding: EdgeInsets.fromLTRB(5.00, 3.00, 0.00, 5.00),
+                child: Text(title, style: myTasksHeading),
               ),
             ],
           ),
+          Container(
+            child: MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30)),
+              onPressed: _showEditDialog,
+              child: Icon(Icons.edit),
+            ),
+          )
         ],
       ),
     );
+  }
+
+  void _showEditDialog() {
+    
   }
 }

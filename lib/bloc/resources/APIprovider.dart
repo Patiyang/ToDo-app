@@ -46,7 +46,7 @@ class RegisterApi {
     }
   }
 
-  Future<Task> addTask(String apiKey, String taskName, String deadline) async {
+  Future addTask(String apiKey, String taskName, String deadline) async {
     final response = await client.post('http://10.0.2.2:5000/api/tasks',
         headers: {"Authorization": apiKey},
         body: jsonEncode({
@@ -84,6 +84,7 @@ class RegisterApi {
       throw Exception('failed to load post');
     }
   }
+
 
   saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

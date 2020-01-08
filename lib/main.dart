@@ -245,8 +245,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: redColor,
                           onPressed: () {
                             print(taskNameCont);
-                            if (taskNameCont.text == '' &&
-                                deadlineCont.text == '') {
+                            if (taskNameCont.text == '' && deadlineCont.text == '') {
+                              Fluttertoast.showToast(
+                                  msg: "fields cannot be empty",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos: 1,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.black,
+                                  fontSize: 16.0);
+                            } else if (taskNameCont.text != null && deadlineCont.text != null) {
                               addTask(taskNameCont.text, deadlineCont.text);
                               Fluttertoast.showToast(
                                   msg: "task successfuly added",
@@ -256,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 16.0);
-                              Navigator.pop(context);
+                                  Navigator.pop(context);
                             }
                           }),
                       RaisedButton(

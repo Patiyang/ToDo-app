@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app/Interfaces/Login/Login.dart';
 import 'package:todo_app/Interfaces/AllTaskView.dart';
 import 'package:todo_app/Styling/global_styling.dart';
@@ -209,6 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
                       decoration: InputDecoration(
                         hintText: 'Task Name',
+                        errorText: checkTask(taskNameCont.text),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white70)),
                       ),
@@ -243,11 +245,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: redColor,
                           onPressed: () {
                             print(taskNameCont);
-                            if (taskNameCont.text != null) {
+                            if (taskNameCont.text == '' &&
+                                deadlineCont.text == '') {
                               addTask(taskNameCont.text, deadlineCont.text);
+                              Fluttertoast.showToast(
+                                  msg: "task successfuly added",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos: 1,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.black,
+                                  fontSize: 16.0);
                               Navigator.pop(context);
                             }
-                            //taskName.text == null ?? addTask(taskName.text, deadline.text);
                           }),
                       RaisedButton(
                           elevation: 0,
@@ -268,6 +278,13 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  String checkTask(String value) {
+    if (!(value.length == 0) && value.isNotEmpty) {
+      return "the task should be of reasonable length";
+    }
+    return null;
   }
 
   void addTask(String taskName, String deadline) async {

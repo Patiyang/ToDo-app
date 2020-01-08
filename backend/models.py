@@ -10,7 +10,7 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement = True)
-    api_key = db.Column(db.String()) 
+    api_key = db.Column(db.String())
     username = db.Column(db.String(), primary_key=True, unique=True)
     first_name = db.Column(db.String())
     last_name = db.Column(db.String())
@@ -84,14 +84,14 @@ def __repr__(self):
         return '<id {}>'.format(self.id)
 
 def serialize(self):
-        return{
-            'id': self.id,
-            'user_id':self.user_id,
-            'done': self.done,
-            'repeats': self.repeats,
-            'deadline': self.deadline,
-            'reminder': self.reminder,
-            'note': self.note,
-            'title':self.title
+    return{
+        'id': self.id,
+        'user_id':self.user_id,
+        'done': self.done,
+        'repeats': self.repeats,
+        'deadline': self.deadline,
+        'reminder': self.reminder,
+        'note': self.note,
+        'title':self.title
             # 'password': self.password
         }

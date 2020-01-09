@@ -34,23 +34,18 @@ class Tasks(Resource):
             else:
                 return {'Message':'No user with that api key'}, 400
 
-    
-
 
     def get(self):
-        
         header = request.headers['Authorization']
         if not header:
             return {'message':'No Api Key'}, 400
         else:
             user = User.query.filter_by(api_key=header).first()
-            if user:
-                tasks = Task.query.filter_by(user_id = user.id).all()
-                tasks = tasks_schema.dump(tasks).data
+        if user:
+            tasks = Task.query.filter_by(user_id = user.id).all()
+            tasks = tasks_schema.dump(tasks).data
 
-                # task = Task.query.get(id)
-                # return task_schema.dump(task).data
-        return{'status': 'success', 'data': tasks}, 201
+            return{'status': 'success', 'data': tasks}, 201
 
    
 
@@ -87,8 +82,31 @@ class Single(Resource):
 
         db.session.commit()
         result = task_schema.dump(task)
-        return{'status':'success', 'data':result},204
+        return{'status':'success', 'data':result}, 204
+        
+    def delete(self, id):
+        header = request.headers['Authorization']
+        json_data = request.get_json(force = True)
+        if not json_data:
+            return{'message':'no input data is provided'}, 400
+        data, errors = task_schema.load(json_data)
+        if errors:
+            return errors, 422
+        if not header:
+            return{'message':'No user with that api key'}, 400
+        else:
+            task = Task.query.get(id)
+            if not task:
+                return{'message':'that task is not here bruh'}
 
+        db.session.delete(task)
+        db.session.commit()
+        result = task_schema.dump(task)
+
+        return{'status':'deleted', 'data': result}, 204
+
+
+            
     def get(self, id):
         header = request.headers['Authorization']
         if not header:

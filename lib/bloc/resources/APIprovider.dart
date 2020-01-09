@@ -9,7 +9,7 @@ import 'package:todo_app/Models/Users.dart';
 
 class RegisterApi {
   Client client = Client();
-  final _apiProvider = 'http://10.0.2.2:5000/api/register';
+  final _apiProvider = 'http://10.0.2.2:5000/v1/register';
 
   Future<User> registerUser(String username, String firstname, String lastname,
       String email, String password) async {
@@ -34,7 +34,7 @@ class RegisterApi {
 
   Future<User> signInUser(
       String username, String password, String apiKey) async {
-    final response = await client.post('http://10.0.2.2:5000/api/signin',
+    final response = await client.post('http://10.0.2.2:5000/v1/signin',
         headers: {"Authorization": apiKey},
         body: jsonEncode({"username": username, "password": password}));
     final Map result = json.decode(response.body);
@@ -47,7 +47,7 @@ class RegisterApi {
   }
 
   Future addTask(String apiKey, String taskName, String deadline) async {
-    final response = await client.post('http://10.0.2.2:5000/api/tasks',
+    final response = await client.post('http://10.0.2.2:5000/v1/tasks',
         headers: {"Authorization": apiKey},
         body: jsonEncode({
           "title": taskName,
@@ -66,7 +66,7 @@ class RegisterApi {
 
   Future<List<Task>> getTask(String apiKey) async {
     final response = await client.get(
-      'http://10.0.2.2:5000/api/tasks',
+      'http://10.0.2.2:5000/v1/tasks',
       headers: {"Authorization": apiKey},
     );
     final Map result = json.decode(response.body);
@@ -81,7 +81,7 @@ class RegisterApi {
       }
       return tasks;
     } else {
-      throw Exception('failed to load post');
+      throw Exception('failed to load tasks');
     }
   }
 

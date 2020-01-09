@@ -31,17 +31,20 @@ class Todo extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(5.00, 3.00, 0.00, 5.00),
+                padding: EdgeInsets.fromLTRB(5.00, 3.00, 5.00, 5.00),
                 child: Text(title, style: myTasksHeading),
               ),
             ],
           ),
           Container(
-            child: MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30)),
-              onPressed: _showEditDialog,
-              child: Icon(Icons.edit),
+            // child: MaterialButton(
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: new BorderRadius.circular(30)),
+            //   onPressed: _showEditDialog,
+            //   child: Icon(Icons.edit),
+            // ),
+            child: Radio(
+              
             ),
           )
         ],

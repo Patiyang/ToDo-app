@@ -5,7 +5,7 @@ from resources.register import Register
 from resources.signin import SignIn
 from resources.Task import Tasks, Single
 
-api_bp = Blueprint('g', __name__)
+api_bp = Blueprint('v1', __name__)
 api = Api(api_bp)
 
 # Route

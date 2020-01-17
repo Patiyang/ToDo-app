@@ -55,7 +55,7 @@ TextStyle deadline = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,
     color: greyColor,
-    fontSize: 14);
+    fontSize: 15);
 
 
 

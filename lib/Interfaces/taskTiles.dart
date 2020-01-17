@@ -36,8 +36,9 @@ class _TodoState extends State<Todo> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-                      child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                     //margin: EdgeInsets.only(left: 5),
@@ -45,16 +46,17 @@ class _TodoState extends State<Todo> {
                     child: Text(
                       widget.title,
                       style: myNoteStyle,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.left,
                     )),
                 Container(
-                    padding: EdgeInsets.only(right: 2),
+                    padding: EdgeInsets.only(left: 7),
                     child: Text(
                       widget.note,
                       style: myNoteStyle,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.left,
                     )),
                 Container(
+                  // padding: EdgeInsets.fromLTRB(20,0,0,5 ),
                   child: Text(
                     'Deadline:',
                     style: deadline,

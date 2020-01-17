@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 
-class Todo extends StatelessWidget {
+class Todo extends StatefulWidget {
   final String title;
-  final String keyValue;
-  Todo({this.title, this.keyValue});
+  final String note;
+  final int id;
 
+  final String keyValue;
+
+  Todo({this.title, this.keyValue, this.id, this.note});
+  @override
+  _TodoState createState() => _TodoState();
+}
+
+class _TodoState extends State<Todo> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: Key(keyValue),
+    return new Container(
+      key: Key(widget.keyValue),
       padding: EdgeInsets.only(top: 7),
-      height: 100,
+      height: 103,
       margin: EdgeInsets.only(left: 1, right: 5, bottom: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -24,35 +32,57 @@ class Todo extends StatelessWidget {
               // offset: Offset(5, 5)
             )
           ]),
-      child: Row(
+      child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Expanded(
+                      child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    //margin: EdgeInsets.only(left: 5),
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      widget.title,
+                      style: myNoteStyle,
+                      textAlign: TextAlign.start,
+                    )),
+                Container(
+                    padding: EdgeInsets.only(right: 2),
+                    child: Text(
+                      widget.note,
+                      style: myNoteStyle,
+                      textAlign: TextAlign.center,
+                    )),
+                Container(
+                  child: Text(
+                    'Deadline:',
+                    style: deadline,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                padding: EdgeInsets.fromLTRB(5.00, 3.00, 5.00, 5.00),
-                child: Text(title, style: myTasksHeading),
+              Radio(
+                activeColor: greyColor,
+                groupValue: null,
+                onChanged: (Null value) {},
+                value: null,
+              ),
+              GestureDetector(
+                child: Icon(Icons.edit),
+                onTap: () {
+                  print('object');
+                },
               ),
             ],
-          ),
-          Container(
-            // child: MaterialButton(
-            //   shape: RoundedRectangleBorder(
-            //       borderRadius: new BorderRadius.circular(30)),
-            //   onPressed: _showEditDialog,
-            //   child: Icon(Icons.edit),
-            // ),
-            child: Radio(
-              
-            ),
           )
         ],
       ),
     );
-  }
-
-  void _showEditDialog() {
-    
   }
 }

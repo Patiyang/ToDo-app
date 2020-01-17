@@ -10,7 +10,7 @@ task_schema = TaskSchema()
 
 class Tasks(Resource):
     def post(self):
-        header = request.headers['Authorization']
+        header = request.headers["Authorization"]
         json_data = request.get_json(force=True)
         if not header:
             return {'message':'No Api Key'}, 400

@@ -37,13 +37,25 @@ TextStyle taskHeading = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,
     color: Colors.white70,
-    fontSize: 17);
+    fontSize: 19);
 
 TextStyle taskbuttons = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,
     color: Colors.white70,
     fontSize: 13);
+
+TextStyle myNoteStyle = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.bold,
+    color: greyColor,
+    fontSize: 15);
+  
+TextStyle deadline = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.bold,
+    color: greyColor,
+    fontSize: 14);
 
 
 

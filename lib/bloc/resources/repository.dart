@@ -15,9 +15,12 @@ class Repository {
   Future<User> signIn(String username, String password, String apiKey) =>
       apiProvider.signInUser(username, password, apiKey);
 
-  Future/*<List<Task>> */ getUserTasks(String apiKey) =>
+  Future getUserTasks(String apiKey) =>
       apiProvider.getTask(apiKey);
 
-  Future addUserTask(String apiKey, String taskName, String deadline) =>
-      apiProvider.addTask(apiKey, taskName, deadline);
+  Future addUserTask(String apiKey, String taskName, String note) =>
+      apiProvider.addTask(apiKey, taskName, note);
+  
+  Future editUserTask(String apiKey, int taskId, String taskName, String deadline) =>
+      apiProvider.editTask(apiKey,taskId,taskName,deadline);
 }

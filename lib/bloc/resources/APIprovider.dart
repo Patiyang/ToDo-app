@@ -46,21 +46,45 @@ class RegisterApi {
     }
   }
 
-  Future addTask(String apiKey, String taskName, String deadline) async {
+  Future addTask(String apiKey, String taskName, String note) async {
     final response = await client.post('http://10.0.2.2:5000/v1/tasks',
-        headers: {"Authorization": apiKey},
+        headers: {"Authorization": apiKey, "Content-Type": "application/json"},
+        body: jsonEncode({
+          "title": taskName,
+          "deadline": "",
+          "done": false,
+          "reminder": "",
+          "note": note,
+          "repeats": ""
+        }));
+        final Map result = json.decode(response.body);
+    if (response.statusCode == 201) {
+      print('task added');
+      saveTaskId(result['data']['id']);
+      return Task.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('failed to add task');
+    }
+  }
+
+
+  Future editTask(String apiKey, int taskId, String taskName, String deadline) async {
+    final response = await client.put(
+        'http://10.0.2.2:5000/v1/tasks/30',
+        headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
         body: jsonEncode({
           "title": taskName,
           "deadline": deadline,
-          "done": false,
+          "done": true,
           "reminder": "",
           "note": "",
-          "repeats":""
+          "repeats": ""
         }));
-    if (response.statusCode == 201) {
-      print('task added');
+    print('response code : ${response.statusCode}');
+    if (response.statusCode == 204) {
+      print('the task has been updated');
     } else {
-      throw Exception('failed to add task');
+      throw Exception('failed to update the task:');
     }
   }
 
@@ -85,9 +109,13 @@ class RegisterApi {
     }
   }
 
-
   saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('API_Token', apiKey);
+  }
+
+  saveTaskId(int taskId) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('taskId', taskId);
   }
 }

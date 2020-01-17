@@ -16,6 +16,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTab extends State<HomeTab> {
   List<dynamic> taskList = []; //CHANGED HERE FROM
   TaskBloc taskBloc;
+  String apiKey = '';
 
   @override
   void initState() {
@@ -31,25 +32,31 @@ class _HomeTab extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     // taskList = fetchTasks();
-    return Container(
-      color: greyColor,
-      child: StreamBuilder(
-        stream: taskBloc.tasks, //pass the getter of the stream here
-        initialData: [], //List<Task>() the initial data
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          taskList = snapshot.data;
-          // return _simpleReorderable(context, taskList);
-          if (snapshot.hasData && snapshot != null) {
-            if (snapshot.data.length > 0) {
-              return _simpleReorderable(context, taskList);
-            } else if (snapshot.data.length == 0) {
-              return Center(
-                child: Text('NO TASKS YET',style: TextStyle(color: Colors.white),),
-              );
+    return Theme(
+      data: ThemeData(dialogBackgroundColor: greyColor),
+      child: Container(
+        color: greyColor,
+        child: StreamBuilder(
+          stream: taskBloc.tasks, //pass the getter of the stream here
+          initialData: [], //List<Task>() the initial data
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            taskList = snapshot.data;
+            // return _simpleReorderable(context, taskList);
+            if (snapshot.hasData && snapshot != null) {
+              if (snapshot.data.length > 0) {
+                return _simpleReorderable(context, taskList);
+              } else if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text(
+                    'NO TASKS YET',
+                    style: TextStyle(color: greyColor),
+                  ),
+                );
+              }
             }
-          }
-          return CircularProgressIndicator();
-        },
+            return CircularProgressIndicator();
+          },
+        ),
       ),
     );
   }
@@ -57,30 +64,36 @@ class _HomeTab extends State<HomeTab> {
   Widget _buildListTile(BuildContext context, Task item) {
     return ListTile(
       key: Key(item.taskid.toString()),
-      title: Todo(
-        title: item.title,
-      ),
+      title: GestureDetector(
+          key: Key(item.taskid.toString()),
+          child: Todo(
+            title: item.title,
+            note: item.note,
+            id: item.taskid,
+          ),
+          onTap: () {}),
     );
   }
 
   Widget _simpleReorderable(BuildContext context, List<Task> taskList) {
-    print(taskList.length);
+    // print(taskList.length);
     //Widget _task = BouncingScrollPhysics();
     return Theme(
-      data: ThemeData(canvasColor: Colors.transparent),
+      data: ThemeData(
+          canvasColor: Colors.transparent, dialogBackgroundColor: greyColor),
       child: ReorderableListView(
-          padding: EdgeInsets.only(top: 300.0),
-          children: taskList
-              .map((Task item) => _buildListTile(context, item))
-              .toList(),
-          onReorder: (oldIndex, newIndex) {
-            setState(() {
-              Task item = taskList[oldIndex];
-              taskList.remove(item);
-              taskList.insert(newIndex, item);
-            });
-            //physics: BouncingScrollPhysics();
-          }),
+        padding: EdgeInsets.only(top: 300.0),
+        children:
+            taskList.map((Task item) => _buildListTile(context, item)).toList(),
+        onReorder: (oldIndex, newIndex) {
+          setState(() {
+            Task item = taskList[oldIndex];
+            taskList.remove(item);
+            taskList.insert(newIndex, item);
+          });
+          // physics: BouncingScrollPhysics()
+        },
+      ),
     );
   }
 

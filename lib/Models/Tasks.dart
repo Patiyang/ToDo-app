@@ -11,15 +11,16 @@ class Task {
 
   Task(this.title, this.taskid, this.done, this.note);
 
-  factory Task.fromJson(Map<String, dynamic> parsedJson) {
-    // for(String key in parsedJson.keys){
-    //   print(key);
-    // }
+  factory Task.fromJson(Map<String, dynamic>parsedJson) {
     return Task(
       parsedJson['title'],
       parsedJson['id'], 
       parsedJson['done'],
       parsedJson['note']
-      );
+      // title: json['title'], 
+      // taskid: json['id'],
+      // done: json['done'],
+      // note: json['note']
+       );
   }
 }

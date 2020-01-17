@@ -35,7 +35,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String apiKey = '';
+  String apiKey;
+  int taskId;
   TaskBloc taskBloc;
   Repository _repository = Repository();
 
@@ -44,11 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          // String apiKey = '';
           if (snapshot.hasData) {
             apiKey = snapshot.data;
             taskBloc = TaskBloc(apiKey);
-            print('the api key is :' + apiKey);
           } else {
             print('there is no data');
           }
@@ -135,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Today',
+                        '10th Jan 2020',
                         style: lobbyText,
                       ),
                       Container(),
@@ -183,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showDialog() {
     TextEditingController taskNameCont = new TextEditingController();
-    TextEditingController deadlineCont = new TextEditingController();
+    TextEditingController noteCont = new TextEditingController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -193,7 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
           content: Container(
             height: 200,
             width: 340,
-            color: greyColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -220,10 +218,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Theme(
                     data: new ThemeData(hintColor: Colors.white70),
                     child: TextField(
-                      controller: deadlineCont,
+                      controller: noteCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
                       decoration: InputDecoration(
-                        hintText: 'Deadline',
+                        hintText: 'note',
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white70)),
                       ),
@@ -243,7 +241,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text('Submit', style: taskHeading),
                           color: redColor,
                           onPressed: () {
-                            print(taskNameCont);
                             if (taskNameCont.text == '') {
                               Fluttertoast.showToast(
                                   msg: "the task field cannot be blank",
@@ -252,17 +249,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 13.0);
-                            } 
-                            else if(deadlineCont.text == ''){
+                            } else if (noteCont.text == '') {
                               Fluttertoast.showToast(
-                                toastLength: Toast.LENGTH_SHORT,
-                                msg: 'you need to enter deadline',
-                                gravity: ToastGravity.CENTER,
-                                fontSize: 7
-                              );
-                            }
-                            else if (taskNameCont.text != null && deadlineCont.text != null) {
-                              addTask(taskNameCont.text, deadlineCont.text);
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  msg: 'you need to enter a note',
+                                  gravity: ToastGravity.CENTER,
+                                  fontSize: 7);
+                            } else if (taskNameCont.text != null &&
+                                noteCont.text != null) {
+                              addTask(taskNameCont.text, noteCont.text);
                               Fluttertoast.showToast(
                                   msg: "task successfuly added",
                                   toastLength: Toast.LENGTH_LONG,
@@ -271,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
-                                  Navigator.pop(context);
+                              Navigator.pop(context);
                             }
                           }),
                       RaisedButton(
@@ -282,6 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text('Cancel', style: taskHeading),
                           color: redColor,
                           onPressed: () {
+                            // print('the api key is ' + apiKey);
                             Navigator.pop(context);
                           })
                     ],
@@ -295,9 +291,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
-  void addTask(String taskName, String deadline) async {
-    await _repository.addUserTask(apiKey, taskName, deadline);
+  void addTask(String taskName, String note) async {
+    await _repository.addUserTask(apiKey, taskName, note);
   }
 
   logOut() async {
@@ -308,8 +303,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+  }
 }

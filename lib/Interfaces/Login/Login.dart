@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   controller: unameText,
                 ),
                 TextField(
+                  obscureText: true,
                   style: TextStyle(color: Colors.black, fontFamily: 'Sans'),
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget getSignupPage() {
     return Scaffold(
-          body: Container(
+      body: Container(
         margin: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[

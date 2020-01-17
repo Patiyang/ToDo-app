@@ -68,16 +68,16 @@ class RegisterApi {
   }
 
 
-  Future editTask(String apiKey, int taskId, String taskName, String deadline) async {
+  Future editTask(String apiKey, int taskId, String taskName, String note) async {
     final response = await client.put(
-        'http://10.0.2.2:5000/v1/tasks/30',
+        'http://10.0.2.2:5000/v1/tasks/$note',
         headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
         body: jsonEncode({
           "title": taskName,
-          "deadline": deadline,
+          "deadline": "",
           "done": true,
           "reminder": "",
-          "note": "",
+          "note": note,
           "repeats": ""
         }));
     print('response code : ${response.statusCode}');

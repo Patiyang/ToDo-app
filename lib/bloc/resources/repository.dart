@@ -21,6 +21,6 @@ class Repository {
   Future addUserTask(String apiKey, String taskName, String note) =>
       apiProvider.addTask(apiKey, taskName, note);
   
-  Future editUserTask(String apiKey, int taskId, String taskName, String deadline) =>
-      apiProvider.editTask(apiKey,taskId,taskName,deadline);
+  Future editUserTask( String apiKey, int taskId, String taskName, String note) =>
+      apiProvider.editTask(apiKey,taskId,taskName,note);
 }

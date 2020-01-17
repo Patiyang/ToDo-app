@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/Interfaces/taskTiles.dart';
 import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
@@ -19,6 +20,8 @@ class _HomeTab extends State<HomeTab> {
   List<dynamic> taskList = []; //CHANGED HERE FROM
   TaskBloc taskBloc;
   String apiKey;
+  
+
   Repository _repository = Repository();
 
   @override
@@ -62,19 +65,18 @@ class _HomeTab extends State<HomeTab> {
 
   Widget _buildListTile(BuildContext context, Task item) {
     return ListTile(
-      key: Key(item.taskid.toString()),
-      title: GestureDetector(
-          key: Key(item.taskid.toString()),
-          child: Todo(
-            title: item.title,
-            note: item.note,
-            id: item.taskid,
-          ),
-          onTap: (){
-            _showEditDialog(item.taskid);
-            print('task ID is: '+ item.taskid.toString());
-          })
-    );
+        key: Key(item.taskid.toString()),
+        title: GestureDetector(
+            key: Key(item.taskid.toString()),
+            child: Todo(
+              title: item.title,
+              note: item.note,
+              id: item.taskid,
+            ),
+            onTap: () {
+              _showEditDialog(item.taskid);
+              print('task ID is: ' + item.taskid.toString());
+            }));
   }
 
   Widget _simpleReorderable(BuildContext context, List<Task> taskList) {
@@ -108,6 +110,7 @@ class _HomeTab extends State<HomeTab> {
       taskList.insert(newIndex, item);
     });
   }
+
 
   void _showEditDialog(int taskid) {
     TextEditingController taskNameCont = new TextEditingController();
@@ -191,7 +194,8 @@ class _HomeTab extends State<HomeTab> {
                                   fontSize: 7);
                             } else if (taskNameCont.text != null &&
                                 noteCont.text != null) {
-                              editTask(taskNameCont.text, noteCont.text);
+                              print(taskid.toString());
+                              editTask(taskNameCont.text, noteCont.text, taskid);
                               Fluttertoast.showToast(
                                   msg: "task successfuly edited",
                                   toastLength: Toast.LENGTH_LONG,
@@ -211,9 +215,9 @@ class _HomeTab extends State<HomeTab> {
                           child: Text('Cancel', style: taskHeading),
                           color: redColor,
                           onPressed: () {
-                            print(taskid.toString());
-                            // Navigator.pop(context);
+                            Navigator.pop(context);
                           })
+                           
                     ],
                   ),
                 )
@@ -225,8 +229,8 @@ class _HomeTab extends State<HomeTab> {
     );
   }
 
-  void editTask(String taskName, String note) async {
-    await _repository.addUserTask(apiKey, taskName, note);
+  void editTask(String taskName, String note, int taskId) async {
+    await _repository.editUserTask(apiKey, taskId, taskName, note);
   }
 
   // Future<List<Task>> fetchTasks() async {

@@ -45,6 +45,12 @@ TextStyle taskbuttons = TextStyle(
     color: Colors.white70,
     fontSize: 13);
 
+TextStyle taskname = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.bold,
+    color: greyColor,
+    fontSize: 19);
+
 TextStyle myNoteStyle = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,

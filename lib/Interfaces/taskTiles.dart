@@ -19,7 +19,7 @@ class _TodoState extends State<Todo> {
     return new Container(
       key: Key(widget.keyValue),
       padding: EdgeInsets.only(top: 7),
-      height: 103,
+      height: 108,
       margin: EdgeInsets.only(left: 1, right: 5, bottom: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -38,25 +38,29 @@ class _TodoState extends State<Todo> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                     //margin: EdgeInsets.only(left: 5),
                     padding: EdgeInsets.only(left: 5),
                     child: Text(
                       widget.title,
-                      style: myNoteStyle,
+                      style: taskname,
                       textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
+                      maxLines: 1,
+                      
                     )),
                 Container(
-                    padding: EdgeInsets.only(left: 7),
+                    padding: EdgeInsets.fromLTRB(10,5,0,0 ),
                     child: Text(
                       widget.note,
                       style: myNoteStyle,
                       textAlign: TextAlign.left,
+                      overflow: TextOverflow.fade,
+                      maxLines: 2,
                     )),
                 Container(
-                  // padding: EdgeInsets.fromLTRB(20,0,0,5 ),
+                  padding: EdgeInsets.fromLTRB(40,10,0,5 ),
                   child: Text(
                     'Deadline:',
                     style: deadline,

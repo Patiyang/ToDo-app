@@ -36,7 +36,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String apiKey;
-  int taskId;
   TaskBloc taskBloc;
   Repository _repository = Repository();
 
@@ -111,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.lightGreen[100],
                           child: Text('Log Out'),
                           onPressed: () {
-                            print('trying to log user out');
+                            print(apiKey);
                             logOut();
                           },
                         ),
@@ -150,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       size: 50,
                     ),
                     backgroundColor: redColor,
-                    onPressed: _showDialog,
+                    onPressed: _showDialog
                   ),
                 )
               ],
@@ -180,6 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+
+
   void _showDialog() {
     TextEditingController taskNameCont = new TextEditingController();
     TextEditingController noteCont = new TextEditingController();
@@ -206,6 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: taskNameCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
+                      textInputAction: TextInputAction.next,
+                      textCapitalization: TextCapitalization.sentences,
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: 'Task Name',
                         enabledBorder: UnderlineInputBorder(
@@ -220,6 +224,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: noteCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
+                       textInputAction: TextInputAction.done,
+                      textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: 'note',
                         enabledBorder: UnderlineInputBorder(
@@ -277,8 +283,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Text('Cancel', style: taskHeading),
                           color: redColor,
                           onPressed: () {
-                            // print('the api key is ' + apiKey);
-                            Navigator.pop(context);
+                            print('the api key is ' + apiKey);
+                            // Navigator.pop(context);
                           })
                     ],
                   ),

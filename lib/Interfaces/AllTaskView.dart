@@ -20,13 +20,18 @@ class _HomeTab extends State<HomeTab> {
   List<dynamic> taskList = []; //CHANGED HERE FROM
   TaskBloc taskBloc;
   String apiKey;
-  
+
+
+  TextEditingController taskNameCont = new TextEditingController();
+  TextEditingController noteCont = new TextEditingController();
+
 
   Repository _repository = Repository();
 
   @override
   void initState() {
     taskBloc = TaskBloc(widget.apiKey);
+    
     super.initState(); // PAY ATTTENTION TO THIS !!!!!!
   }
 
@@ -74,14 +79,16 @@ class _HomeTab extends State<HomeTab> {
               id: item.taskid,
             ),
             onTap: () {
-              _showEditDialog(item.taskid);
+              taskNameCont.text = item.title;
+              noteCont.text = item.note;
+
+              _showEditDialog(item.taskid, item.title, item.note);
               print('task ID is: ' + item.taskid.toString());
+              print('the title is ' + item.title);
             }));
   }
 
   Widget _simpleReorderable(BuildContext context, List<Task> taskList) {
-    // print(taskList.length);
-    //Widget _task = BouncingScrollPhysics();
     return Theme(
       data: ThemeData(
           canvasColor: Colors.transparent, dialogBackgroundColor: greyColor),
@@ -111,10 +118,7 @@ class _HomeTab extends State<HomeTab> {
     });
   }
 
-
-  void _showEditDialog(int taskid) {
-    TextEditingController taskNameCont = new TextEditingController();
-    TextEditingController noteCont = new TextEditingController();
+  void _showEditDialog(int taskid, String title, String note) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -178,9 +182,12 @@ class _HomeTab extends State<HomeTab> {
                           child: Text('Submit', style: taskHeading),
                           color: redColor,
                           onPressed: () {
+                            // taskNameCont.text = title;
+                            // noteCont.text = note;
+
                             if (taskNameCont.text == '') {
                               Fluttertoast.showToast(
-                                  msg: "the task field cannot be blank",
+                                  msg: "enter a viable title",
                                   toastLength: Toast.LENGTH_LONG,
                                   gravity: ToastGravity.CENTER,
                                   // backgroundColor: Colors.white,
@@ -189,13 +196,13 @@ class _HomeTab extends State<HomeTab> {
                             } else if (noteCont.text == '') {
                               Fluttertoast.showToast(
                                   toastLength: Toast.LENGTH_SHORT,
-                                  msg: 'you need to enter a note',
+                                  msg: 'enter a viable note',
                                   gravity: ToastGravity.CENTER,
                                   fontSize: 7);
                             } else if (taskNameCont.text != null &&
                                 noteCont.text != null) {
-                              print(taskid.toString());
-                              editTask(taskNameCont.text, noteCont.text, taskid);
+                              editTask(
+                                  taskNameCont.text, noteCont.text, taskid);
                               Fluttertoast.showToast(
                                   msg: "task successfuly edited",
                                   toastLength: Toast.LENGTH_LONG,
@@ -204,7 +211,7 @@ class _HomeTab extends State<HomeTab> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
                             }
                           }),
                       RaisedButton(
@@ -217,7 +224,6 @@ class _HomeTab extends State<HomeTab> {
                           onPressed: () {
                             Navigator.pop(context);
                           })
-                           
                     ],
                   ),
                 )

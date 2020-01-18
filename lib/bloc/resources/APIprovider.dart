@@ -70,7 +70,7 @@ class RegisterApi {
 
   Future editTask(String apiKey, int taskId, String taskName, String note) async {
     final response = await client.put(
-        'http://10.0.2.2:5000/v1/tasks/$note',
+        'http://10.0.2.2:5000/v1/tasks/$taskId',
         headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
         body: jsonEncode({
           "title": taskName,

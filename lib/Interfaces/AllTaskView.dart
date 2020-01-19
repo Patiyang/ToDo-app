@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/Interfaces/taskTiles.dart';
 import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/Styling/global_styling.dart';
@@ -21,17 +20,15 @@ class _HomeTab extends State<HomeTab> {
   TaskBloc taskBloc;
   String apiKey;
 
-
   TextEditingController taskNameCont = new TextEditingController();
   TextEditingController noteCont = new TextEditingController();
-
 
   Repository _repository = Repository();
 
   @override
   void initState() {
     taskBloc = TaskBloc(widget.apiKey);
-    
+
     super.initState(); // PAY ATTTENTION TO THIS !!!!!!
   }
 
@@ -49,7 +46,7 @@ class _HomeTab extends State<HomeTab> {
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           taskList = snapshot.data;
-          // return _simpleReorderable(context, taskList);
+
           if (snapshot.hasData && snapshot != null) {
             if (snapshot.data.length > 0) {
               return _simpleReorderable(context, taskList);
@@ -57,7 +54,7 @@ class _HomeTab extends State<HomeTab> {
               return Center(
                 child: Text(
                   'NO TASKS YET',
-                  style: TextStyle(color: greyColor),
+                  style: TextStyle(color: Colors.white),
                 ),
               );
             }
@@ -83,6 +80,7 @@ class _HomeTab extends State<HomeTab> {
               noteCont.text = item.note;
 
               _showEditDialog(item.taskid, item.title, item.note);
+              // _showDelDialog(item.taskid);
               print('task ID is: ' + item.taskid.toString());
               print('the title is ' + item.title);
             }));
@@ -118,7 +116,7 @@ class _HomeTab extends State<HomeTab> {
     });
   }
 
-  void _showEditDialog(int taskid, String title, String note) {
+  void _showEditDialog(int taskId, String title, String note) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -126,7 +124,7 @@ class _HomeTab extends State<HomeTab> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Container(
-            height: 200,
+            height: 270,
             width: 340,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,7 +158,7 @@ class _HomeTab extends State<HomeTab> {
                       controller: noteCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
                       textInputAction: TextInputAction.done,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       decoration: InputDecoration(
                         hintText: 'Update note',
                         enabledBorder: UnderlineInputBorder(
@@ -182,9 +180,6 @@ class _HomeTab extends State<HomeTab> {
                           child: Text('Submit', style: taskHeading),
                           color: redColor,
                           onPressed: () {
-                            // taskNameCont.text = title;
-                            // noteCont.text = note;
-
                             if (taskNameCont.text == '') {
                               Fluttertoast.showToast(
                                   msg: "enter a viable title",
@@ -202,7 +197,7 @@ class _HomeTab extends State<HomeTab> {
                             } else if (taskNameCont.text != null &&
                                 noteCont.text != null) {
                               editTask(
-                                  taskNameCont.text, noteCont.text, taskid);
+                                  taskNameCont.text, noteCont.text, taskId);
                               Fluttertoast.showToast(
                                   msg: "task successfuly edited",
                                   toastLength: Toast.LENGTH_LONG,
@@ -211,7 +206,7 @@ class _HomeTab extends State<HomeTab> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
-                              // Navigator.pop(context);
+                              Navigator.pop(context);
                             }
                           }),
                       RaisedButton(
@@ -226,6 +221,20 @@ class _HomeTab extends State<HomeTab> {
                           })
                     ],
                   ),
+                ),
+                Container(
+                  child: Center(
+                    child: GestureDetector(
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white70,
+                        ),
+                        onTap: () {
+                          _showDelDialog(taskId);
+                          // deleteTask(taskId);
+                          // Navigator.pop(context);
+                        }),
+                  ),
                 )
               ],
             ),
@@ -235,8 +244,59 @@ class _HomeTab extends State<HomeTab> {
     );
   }
 
+  void _showDelDialog(int taskId) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            content: Container(
+              height: 100,
+              width: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Center(
+                      child: Text(
+                    'are you sure?',
+                    style: taskHeading,
+                  )),
+                  Container(
+                    padding: EdgeInsets.only(right: 20, left: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Icon(Icons.cancel, color: Colors.white70),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Icon(Icons.done, color: Colors.white70),
+                          onTap: () {
+                            deleteTask(taskId);
+                            Navigator.pop(context);
+                            // print(taskId);
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void editTask(String taskName, String note, int taskId) async {
     await _repository.editUserTask(apiKey, taskId, taskName, note);
+  }
+
+  void deleteTask(int taskId) async {
+    await _repository.deleteUserTask(apiKey, taskId);
   }
 
   // Future<List<Task>> fetchTasks() async {

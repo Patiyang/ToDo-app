@@ -225,9 +225,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: noteCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
                        textInputAction: TextInputAction.done,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       decoration: InputDecoration(
-                        hintText: 'note',
+                        hintText: 'Note',
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white70)),
                       ),

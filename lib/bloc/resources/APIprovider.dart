@@ -57,20 +57,19 @@ class RegisterApi {
           "note": note,
           "repeats": ""
         }));
-        final Map result = json.decode(response.body);
+    // final Map result = json.decode(response.body);
     if (response.statusCode == 201) {
       print('task added');
-      saveTaskId(result['data']['id']);
-      return Task.fromJson(json.decode(response.body));
+      // saveTaskId(result['data']['id']);
+      // return Task.fromJson(json.decode(response.body));
     } else {
       throw Exception('failed to add task');
     }
   }
 
-
-  Future editTask(String apiKey, int taskId, String taskName, String note) async {
-    final response = await client.put(
-        'http://10.0.2.2:5000/v1/tasks/$taskId',
+  Future editTask(
+      String apiKey, int taskId, String taskName, String note) async {
+    final response = await client.put('http://10.0.2.2:5000/v1/tasks/$taskId',
         headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
         body: jsonEncode({
           "title": taskName,
@@ -81,10 +80,31 @@ class RegisterApi {
           "repeats": ""
         }));
     print('response code : ${response.statusCode}');
+    // print(response.body.toString());
     if (response.statusCode == 204) {
       print('the task has been updated');
     } else {
       throw Exception('failed to update the task:');
+    }
+  }
+
+  Future<List<Task>> deleteTask(String apiKey, int taskId) async {
+    final response =
+        await client.delete('http://10.0.2.2:5000/v1/tasks/$taskId', 
+      headers: {
+      "Authorization": apiKey,
+      'Content-Type': 'application/json',
+    });
+
+    print('status code is: ${response.statusCode}');
+    if (response.statusCode == 204) {
+      print('deleting task ' + taskId.toString() + 'successful');
+
+      List<Task> tasks = [];
+      return tasks;
+
+    } else {
+      throw Exception('/nfailed to delete the task: ' + taskId.toString());
     }
   }
 
@@ -112,10 +132,5 @@ class RegisterApi {
   saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('API_Token', apiKey);
-  }
-
-  saveTaskId(int taskId) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('taskId', taskId);
   }
 }

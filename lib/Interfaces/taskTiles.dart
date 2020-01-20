@@ -80,9 +80,9 @@ class _TodoState extends State<Todo> {
                 value: null,
               ),
               GestureDetector(
-                child: Icon(Icons.edit),
+                child: Icon(Icons.alarm_off, color: greyColor,),
                 onTap: () {
-                  print('object');
+                  print('id.toString()');
                 },
               ),
             ],

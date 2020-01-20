@@ -8,8 +8,8 @@ import 'package:todo_app/bloc/resources/repository.dart';
 
 class HomeTab extends StatefulWidget {
   final String apiKey;
-  HomeTab({Key key, /*this.title,*/ this.apiKey}) : super(key: key);
-  // final String title;
+  HomeTab({Key key, this.apiKey}) : super(key: key);
+ 
 
   @override
   _HomeTab createState() => _HomeTab();
@@ -79,8 +79,8 @@ class _HomeTab extends State<HomeTab> {
               taskNameCont.text = item.title;
               noteCont.text = item.note;
 
-              _showEditDialog(item.taskid, item.title, item.note);
-              // _showDelDialog(item.taskid);
+              // _showEditDialog(item.taskid, item.title, item.note);
+              _showDelDialog(item.taskid);
               print('task ID is: ' + item.taskid.toString());
               print('the title is ' + item.title);
             }));
@@ -116,7 +116,7 @@ class _HomeTab extends State<HomeTab> {
     });
   }
 
-  void _showEditDialog(int taskId, String title, String note) {
+  void _showEditDialog(int taskid, String title, String note) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -197,7 +197,7 @@ class _HomeTab extends State<HomeTab> {
                             } else if (taskNameCont.text != null &&
                                 noteCont.text != null) {
                               editTask(
-                                  taskNameCont.text, noteCont.text, taskId);
+                                  taskNameCont.text, noteCont.text, taskid);
                               Fluttertoast.showToast(
                                   msg: "task successfuly edited",
                                   toastLength: Toast.LENGTH_LONG,
@@ -230,7 +230,7 @@ class _HomeTab extends State<HomeTab> {
                           color: Colors.white70,
                         ),
                         onTap: () {
-                          _showDelDialog(taskId);
+                          _showDelDialog(taskid);
                           // deleteTask(taskId);
                           // Navigator.pop(context);
                         }),
@@ -244,7 +244,7 @@ class _HomeTab extends State<HomeTab> {
     );
   }
 
-  void _showDelDialog(int taskId) {
+  void _showDelDialog(int taskid) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -276,7 +276,7 @@ class _HomeTab extends State<HomeTab> {
                         GestureDetector(
                           child: Icon(Icons.done, color: Colors.white70),
                           onTap: () {
-                            deleteTask(taskId);
+                            deleteTask(taskid);
                             Navigator.pop(context);
                             // print(taskId);
                           },
@@ -295,8 +295,8 @@ class _HomeTab extends State<HomeTab> {
     await _repository.editUserTask(apiKey, taskId, taskName, note);
   }
 
-  void deleteTask(int taskId) async {
-    await _repository.deleteUserTask(apiKey, taskId);
+  void deleteTask(int taskid) async {
+    await _repository.deleteUserTask(apiKey, taskid);
   }
 
   // Future<List<Task>> fetchTasks() async {

@@ -57,11 +57,8 @@ class RegisterApi {
           "note": note,
           "repeats": ""
         }));
-    // final Map result = json.decode(response.body);
     if (response.statusCode == 201) {
       print('task added');
-      // saveTaskId(result['data']['id']);
-      // return Task.fromJson(json.decode(response.body));
     } else {
       throw Exception('failed to add task');
     }
@@ -80,7 +77,6 @@ class RegisterApi {
           "repeats": ""
         }));
     print('response code : ${response.statusCode}');
-    // print(response.body.toString());
     if (response.statusCode == 204) {
       print('the task has been updated');
     } else {
@@ -88,30 +84,31 @@ class RegisterApi {
     }
   }
 
-  Future<List<Task>> deleteTask(String apiKey, int taskId) async {
-    final response =
-        await client.delete('http://10.0.2.2:5000/v1/tasks/$taskId', 
-      headers: {
-      "Authorization": apiKey,
-      'Content-Type': 'application/json',
-    });
-
+  Future<List<Task>> deleteTask(String apiKey, int taskid) async {
+    final response = await client.delete(
+      'http://10.0.2.2:5000/v1/tasks/$taskid',
+      headers: {"Authorization": apiKey},
+    );
     print('status code is: ${response.statusCode}');
+    final Map result = json.decode(response.body);
     if (response.statusCode == 204) {
-      print('deleting task ' + taskId.toString() + 'successful');
-
       List<Task> tasks = [];
-      return tasks;
-
+      for(Map json in result['data']){
+        try{
+          tasks.remove(Task.fromJson(json));
+        }catch(Exception){
+          print(Exception);
+        }
+      }return tasks;
     } else {
-      throw Exception('/nfailed to delete the task: ' + taskId.toString());
+      throw Exception('failed to delete the task: ' + taskid.toString());
     }
   }
 
   Future<List<Task>> getTask(String apiKey) async {
     final response = await client.get(
       'http://10.0.2.2:5000/v1/tasks',
-      headers: {"Authorization": apiKey},
+      headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
     );
     final Map result = json.decode(response.body);
     if (response.statusCode == 201) {

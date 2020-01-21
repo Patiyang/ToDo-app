@@ -79,8 +79,8 @@ class _HomeTab extends State<HomeTab> {
               taskNameCont.text = item.title;
               noteCont.text = item.note;
 
-              // _showEditDialog(item.taskid, item.title, item.note);
-              _showDelDialog(item.taskid);
+              _showEditDialog(item.taskid, item.title, item.note);
+              // _showDelDialog(item.taskid);
               print('task ID is: ' + item.taskid.toString());
               print('the title is ' + item.title);
             }));

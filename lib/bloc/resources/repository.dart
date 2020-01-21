@@ -24,6 +24,6 @@ class Repository {
   Future editUserTask( String apiKey, int taskId, String taskName, String note) =>
       apiProvider.editTask(apiKey,taskId,taskName,note);
   
-  Future deleteUserTask(String apiKey, int id)=>
-  apiProvider.deleteTask(apiKey, id);
+  Future deleteUserTask(String apiKey, int taskid)=>
+  apiProvider.deleteTask(apiKey, taskid);
 }

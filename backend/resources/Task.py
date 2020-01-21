@@ -55,12 +55,14 @@ class Single(Resource):
         header = request.headers['Authorization']
         json_data = request.get_json(force = True)
         if not json_data:
-            return{'message':'no input data provided'}, 400
+            return{'message':'no valid input data provided'}, 400
+        if not header:
+            return{'message':'No api key has been found'}, 400
+
         data, errors = task_schema.load(json_data)
         if errors:
             return errors, 422
-        if not header:
-            return{'message':'No api key has been found'}, 400
+        
         else:
             task = Task.query.get(id)
             if not task:
@@ -86,14 +88,8 @@ class Single(Resource):
         
     def delete(self, id):
         header = request.headers['Authorization']
-        json_data = request.get_json(force = True)
-        if not json_data:
-            return{'message':'no input data is provided'}, 400
-        data, errors = task_schema.load(json_data)
-        if errors:
-            return errors, 422
         if not header:
-            return{'message':'No user with that api key'}, 400
+            return{'message':'No api key has been found'}, 402
         else:
             task = Task.query.get(id)
             if not task:
@@ -105,10 +101,11 @@ class Single(Resource):
 
         return{'status':'deleted', 'data': result}, 204
 
-
-            
     def get(self, id):
         header = request.headers['Authorization']
+        json_data = request.get_json(force = True)
+        if not json_data:
+            return{'message':'no valid input data provided'}, 400
         if not header:
             return {'message':'No Api Key'}, 400
         else:

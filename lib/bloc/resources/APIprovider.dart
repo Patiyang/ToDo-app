@@ -84,22 +84,14 @@ class RegisterApi {
     }
   }
 
-  Future<List<Task>> deleteTask(String apiKey, int taskid) async {
+  Future deleteTask(String apiKey, int taskid) async {
     final response = await client.delete(
       'http://10.0.2.2:5000/v1/tasks/$taskid',
-      headers: {"Authorization": apiKey},
+      headers: {"Authorization": apiKey, 'Content-Type': 'application/json'},
     );
     print('status code is: ${response.statusCode}');
-    final Map result = json.decode(response.body);
     if (response.statusCode == 204) {
-      List<Task> tasks = [];
-      for(Map json in result['data']){
-        try{
-          tasks.remove(Task.fromJson(json));
-        }catch(Exception){
-          print(Exception);
-        }
-      }return tasks;
+      print('the task '+taskid.toString()+' has been deleted succesfully');
     } else {
       throw Exception('failed to delete the task: ' + taskid.toString());
     }

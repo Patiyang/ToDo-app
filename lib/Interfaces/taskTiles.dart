@@ -82,7 +82,7 @@ class _TodoState extends State<Todo> {
               GestureDetector(
                 child: Icon(Icons.alarm_off, color: greyColor,),
                 onTap: () {
-                  print('id.toString()');
+                  print('i am goign to pass the id here');
                 },
               ),
             ],

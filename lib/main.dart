@@ -44,16 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
             apiKey = snapshot.data;
-            taskBloc = TaskBloc(apiKey);
+            return apiKey.length > 0
+                ? getHomePage()
+                : LoginPage(loginPressed: login, newUser: false);
           } else {
-            print('there is no data');
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              apiKey = snapshot.data;
+              print('there is no data');
+            }
           }
-          return apiKey.length > 0
-              ? getHomePage()
-              : LoginPage(loginPressed: login, newUser: false);
-          // return LoginPage();
+            return Container();
         });
   }
 
@@ -64,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future signInUser() async {
-    String userName = '';
     apiKey = await getApiKey();
     if (apiKey != null) {
       if (apiKey.length > 0) {
@@ -144,13 +145,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.only(left: 175),
                   height: 290,
                   child: FloatingActionButton(
-                    child: Icon(
-                      Icons.add,
-                      size: 50,
-                    ),
-                    backgroundColor: redColor,
-                    onPressed: _showDialog
-                  ),
+                      child: Icon(
+                        Icons.add,
+                        size: 50,
+                      ),
+                      backgroundColor: redColor,
+                      onPressed: _showDialog),
                 )
               ],
             ),
@@ -178,8 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-
 
   void _showDialog() {
     TextEditingController taskNameCont = new TextEditingController();
@@ -224,7 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: TextField(
                       controller: noteCont,
                       style: TextStyle(color: Colors.white, fontFamily: 'Sans'),
-                       textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.done,
                       textAlign: TextAlign.start,
                       decoration: InputDecoration(
                         hintText: 'Note',

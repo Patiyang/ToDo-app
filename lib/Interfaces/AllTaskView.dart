@@ -28,7 +28,6 @@ class _HomeTab extends State<HomeTab> {
   @override
   void initState() {
     taskBloc = TaskBloc(widget.apiKey);
-
     super.initState(); // PAY ATTTENTION TO THIS !!!!!!
   }
 
@@ -46,11 +45,10 @@ class _HomeTab extends State<HomeTab> {
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           taskList = snapshot.data;
-
           if (snapshot.hasData && snapshot != null) {
             if (snapshot.data.length > 0) {
               return _simpleReorderable(context, taskList);
-            } else if (snapshot.data.length == 0) {
+            } else {
               return Center(
                 child: Text(
                   'NO TASKS YET',

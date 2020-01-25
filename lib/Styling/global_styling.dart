@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-Color greyColor = new Color(0xFF212121);
+Color greyColor = new Color(0xff212121);
 Color redColor = new Color(0xffef5350);
 Color lightBlue = new Color(0xF88787A0);
 

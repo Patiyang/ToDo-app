@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    //bloc.registerUser("username", "firstname", "lastname", "emailadress", "password");
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'todo app',
@@ -51,8 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 : LoginPage(loginPressed: login, newUser: false);
           } else {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              apiKey = snapshot.data;
-              print('there is no data');
+              return CircularProgressIndicator();
             }
           }
             return Container();

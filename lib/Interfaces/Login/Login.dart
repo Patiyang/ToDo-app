@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // bool newUser = false;
   TextEditingController emailCont = new TextEditingController();
   TextEditingController usernameCont = new TextEditingController();
   TextEditingController firstnameCont = new TextEditingController();

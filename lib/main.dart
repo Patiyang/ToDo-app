@@ -43,7 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: signInUser(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
             apiKey = snapshot.data;
             return apiKey.length > 0
                 ? getHomePage()
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return CircularProgressIndicator();
             }
           }
-            return Container();
+          return Container();
         });
   }
 
@@ -270,6 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontSize: 10.0);
                               Navigator.pop(context);
                             }
+                            
                           }),
                       RaisedButton(
                           elevation: 0,

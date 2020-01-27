@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 Color greyColor = new Color(0xff212121);
 Color redColor = new Color(0xffef5350);
 Color lightBlue = new Color(0xF88787A0);
@@ -56,14 +57,18 @@ TextStyle myNoteStyle = TextStyle(
     fontWeight: FontWeight.bold,
     color: greyColor,
     fontSize: 15);
-  
+
 TextStyle deadline = TextStyle(
     fontFamily: 'Sans',
     fontWeight: FontWeight.bold,
     color: greyColor,
     fontSize: 15);
 
-
+TextStyle infoUi = TextStyle(
+    fontFamily: 'Sans',
+    fontWeight: FontWeight.w200,
+    color: Colors.grey[200],
+    fontSize: 15);
 
 // FloatingActionButton myButtons = FloatingActionButton(
 //   backgroundColor: redColor,
@@ -74,7 +79,7 @@ TextStyle deadline = TextStyle(
 //     logOut();
 //   },
 // );
-//  logOut() async{ 
+//  logOut() async{
 //       SharedPreferences prefs= await SharedPreferences.getInstance();
 //       prefs.setString('api token', "");
 //   }

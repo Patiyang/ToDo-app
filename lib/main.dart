@@ -41,21 +41,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: signInUser(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            apiKey = snapshot.data;
-            return apiKey.length > 0
-                ? getHomePage()
-                : LoginPage(loginPressed: login, newUser: false);
-          } else {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+          future: signInUser(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              apiKey = snapshot.data;
+              return apiKey.length > 0
+                  ? getHomePage()
+                  : LoginPage(loginPressed: login, newUser: false);
+            } else {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
             }
-          }
-          return Container();
-        });
+            return Container();
+          });
   }
 
   void login() {
@@ -271,7 +271,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontSize: 10.0);
                               Navigator.pop(context);
                             }
-                            
                           }),
                       RaisedButton(
                           elevation: 0,

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app/Interfaces/taskTiles.dart';
@@ -9,7 +11,6 @@ import 'package:todo_app/bloc/resources/repository.dart';
 class HomeTab extends StatefulWidget {
   final String apiKey;
   HomeTab({Key key, this.apiKey}) : super(key: key);
- 
 
   @override
   _HomeTab createState() => _HomeTab();
@@ -45,20 +46,44 @@ class _HomeTab extends State<HomeTab> {
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           taskList = snapshot.data;
-          if (snapshot.hasData && snapshot != null) {
-            if (snapshot.data.length > 0) {
-              return _simpleReorderable(context, taskList);
-            } else {
-              return Center(
-                child: Text(
-                  'NO TASKS YET',
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
-            }
+
+          if (snapshot.hasError) {
+            return _getInfo(snapshot.error);
           }
-          return CircularProgressIndicator();
+          if (!snapshot.hasData || snapshot.data == TaskView.Busy) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (taskList.length == 0) {
+            return _getInfo('no tasks in your account');
+          }
+
+          // if (snapshot.hasData && snapshot != null) {
+          //   if (snapshot.data.length > 0) {
+          //     return _simpleReorderable(context, taskList);
+          //   } else {
+          //     return Center(
+          //       child: Text(
+          //         'You don\'t have any tasks yet',
+          //         style:
+          //             TextStyle(color: greyColor, fontWeight: FontWeight.w200),
+          //       ),
+          //     );
+          //   }
+          // }
+          return _simpleReorderable(context, taskList);
         },
+      ),
+    );
+  }
+
+  Widget _getInfo(String message) {
+    return Center(
+      child: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: infoUi,
       ),
     );
   }

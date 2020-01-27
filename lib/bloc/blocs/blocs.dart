@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:todo_app/Models/Tasks.dart';
 import 'package:todo_app/bloc/resources/repository.dart';
 import 'package:todo_app/Models/Users.dart';
 import 'package:rxdart/rxdart.dart';
+//import 'package:observable/observable.dart';
+
+enum TaskView { Busy, Retrieved, NoData }
 
 class RegisterBloc {
   final _repository = Repository();
@@ -32,6 +37,8 @@ class TaskBloc {
   String apiKey;
   var _tasks = <Task>[];
 
+  final StreamController<TaskView> stateController = StreamController<TaskView>();
+
   TaskBloc(String apikey) {
     this.apiKey = apikey;
     _updateTasks(apikey).then((_) {
@@ -40,8 +47,18 @@ class TaskBloc {
   }
   Stream<List<Task>> get tasks => _taskSubject.stream;
 
-  Future<Null> _updateTasks(String apiKey) async {
+  Future<Null> _updateTasks(String apiKey,{bool hasError = false, bool hasData = true}) async {
+    stateController.add(TaskView.Busy);
+    await Future.delayed(Duration(seconds: 1));
+
+    if (hasError) {
+      return stateController.addError('an error was encountered');
+    }
+    if (!hasData) {
+      return stateController.add(TaskView.NoData);
+    }
     _tasks = await _repository.getUserTasks(apiKey);
+    stateController.add(TaskView.Retrieved);
   }
 }
 

@@ -66,8 +66,8 @@ TextStyle deadline = TextStyle(
 
 TextStyle infoUi = TextStyle(
     fontFamily: 'Sans',
-    fontWeight: FontWeight.w200,
-    color: Colors.grey[200],
+    // fontWeight: FontWeight.w200,
+    color: Colors.white70,
     fontSize: 15);
 
 // FloatingActionButton myButtons = FloatingActionButton(

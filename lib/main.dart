@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_app/Interfaces/Login/Login.dart';
@@ -5,10 +6,8 @@ import 'package:todo_app/Interfaces/AllTaskView.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/bloc/blocs/blocs.dart';
-
 import 'Styling/global_styling.dart';
 import 'bloc/resources/repository.dart';
-//import 'Interfaces/User Profile/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,6 +24,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+enum SignInState { Busy, Data, NoData }
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
@@ -38,24 +39,46 @@ class _MyHomePageState extends State<MyHomePage> {
   TaskBloc taskBloc;
   Repository _repository = Repository();
 
+  final StreamController<SignInState> stateController =
+      StreamController<SignInState>();
+
+  @override
+  void initState() {
+    signInUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-          future: signInUser(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              apiKey = snapshot.data;
-              return apiKey.length > 0
-                  ? getHomePage()
-                  : LoginPage(loginPressed: login, newUser: false);
-            } else {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              }
+        future: signInUser(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            apiKey = snapshot.data;
+            return apiKey.length > 0
+                ? getHomePage()
+                : LoginPage(loginPressed: login, newUser: false);
+          } else {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                color: greyColor,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
-            return Container();
-          });
+          }
+          return Container(
+            color: greyColor,
+            child: Center(
+              child: Text(
+                'something somewhere is fucked up',
+                style: TextStyle(color: Colors.grey[100], fontFamily: 'Sans'),
+              ),
+            ),
+          );
+        });
   }
 
   void login() {
@@ -64,11 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future signInUser() async {
+  Future signInUser({bool hasError = false, bool hasData = true}) async {
     apiKey = await getApiKey();
     if (apiKey != null) {
       if (apiKey.length > 0) {
         userBloc.signInUser('', '', apiKey);
+        print(apiKey);
       } else {
         print('no api key present');
       }
@@ -78,12 +102,30 @@ class _MyHomePageState extends State<MyHomePage> {
     return apiKey;
   }
 
+  Widget _getInfo(String message) {
+    return Center(
+      child: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: infoUi,
+      ),
+    );
+  }
+
   Future getApiKey() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('API_Token');
   }
 
   Widget getHomePage() {
+    Fluttertoast.showToast(
+        msg: "login successful",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        // timeInSecForIos: 1,
+        // backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 10.0);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       color: Colors.grey[850],
@@ -269,6 +311,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
+                              setState(() {
+                                getHomePage();
+                              });
                               Navigator.pop(context);
                             }
                           }),
@@ -281,7 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: redColor,
                           onPressed: () {
                             print('the api key is ' + apiKey);
-                            // Navigator.pop(context);
+                            Navigator.pop(context);
                           })
                     ],
                   ),
@@ -294,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void addTask(String taskName, String note) async {
+  addTask(String taskName, String note) async {
     await _repository.addUserTask(apiKey, taskName, note);
   }
 
@@ -304,10 +349,5 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       build(context);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 }

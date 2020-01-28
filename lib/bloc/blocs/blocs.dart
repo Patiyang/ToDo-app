@@ -11,6 +11,7 @@ enum TaskView { Busy, Retrieved, NoData }
 class RegisterBloc {
   final _repository = Repository();
   final _userSaver = PublishSubject<User>();
+  
 
   Observable<User> get allFields => _userSaver.stream;
 
@@ -41,13 +42,14 @@ class TaskBloc {
 
   TaskBloc(String apikey) {
     this.apiKey = apikey;
-    _updateTasks(apikey).then((_) {
+    updateTasks(apikey).then((_) {
+      print('got you maafaka '+apiKey);
       _taskSubject.add(_tasks);
     });
   }
   Stream<List<Task>> get tasks => _taskSubject.stream;
 
-  Future<Null> _updateTasks(String apiKey,{bool hasError = false, bool hasData = true}) async {
+  Future updateTasks(String apiKey,{bool hasError = false, bool hasData = true}) async {
     stateController.add(TaskView.Busy);
     await Future.delayed(Duration(seconds: 1));
 
@@ -60,6 +62,7 @@ class TaskBloc {
     _tasks = await _repository.getUserTasks(apiKey);
     stateController.add(TaskView.Retrieved);
   }
+  
 }
 
 final userBloc = RegisterBloc();

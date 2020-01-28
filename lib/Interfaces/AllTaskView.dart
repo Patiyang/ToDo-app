@@ -46,32 +46,22 @@ class _HomeTab extends State<HomeTab> {
         initialData: [], //List<Task>() the initial data
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           taskList = snapshot.data;
-
           if (snapshot.hasError) {
             return _getInfo(snapshot.error);
-          }
-          if (!snapshot.hasData || snapshot.data == TaskView.Busy) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+          } else {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                  color: greyColor,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: greyColor,
+                  )));
+            }
           }
           if (taskList.length == 0) {
             return _getInfo('no tasks in your account');
           }
 
-          // if (snapshot.hasData && snapshot != null) {
-          //   if (snapshot.data.length > 0) {
-          //     return _simpleReorderable(context, taskList);
-          //   } else {
-          //     return Center(
-          //       child: Text(
-          //         'You don\'t have any tasks yet',
-          //         style:
-          //             TextStyle(color: greyColor, fontWeight: FontWeight.w200),
-          //       ),
-          //     );
-          //   }
-          // }
           return _simpleReorderable(context, taskList);
         },
       ),
@@ -229,6 +219,7 @@ class _HomeTab extends State<HomeTab> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
+
                               Navigator.pop(context);
                             }
                           }),
@@ -301,7 +292,6 @@ class _HomeTab extends State<HomeTab> {
                           onTap: () {
                             deleteTask(taskid);
                             Navigator.pop(context);
-                            // print(taskId);
                           },
                         )
                       ],
@@ -321,10 +311,4 @@ class _HomeTab extends State<HomeTab> {
   void deleteTask(int taskid) async {
     await _repository.deleteUserTask(apiKey, taskid);
   }
-
-  // Future<List<Task>> fetchTasks() async {
-  //   List<Task> tasks = await taskBloc.addTask(widget.apiKey);
-  //   print(tasks[0].title);
-  //   return tasks;
-  // }
 }

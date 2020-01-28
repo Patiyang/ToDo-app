@@ -161,12 +161,8 @@ class _LoginPageState extends State<LoginPage> {
                     firstnameCont != null ||
                     emailCont != null ||
                     lastnameCont != null) {
-                  userBloc
-                      .registerUser(usernameCont.text, firstnameCont.text,
-                          lastnameCont.text, emailCont.text, passwordCont.text)
-                      .then((_) {
-                    widget.loginPressed();
-                  });
+                  userBloc.registerUser(usernameCont.text, firstnameCont.text,
+                      lastnameCont.text, emailCont.text, passwordCont.text);
                 }
               },
             )

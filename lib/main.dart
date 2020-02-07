@@ -39,9 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
   TaskBloc taskBloc;
   Repository _repository = Repository();
 
-  final StreamController<SignInState> stateController =
-      StreamController<SignInState>();
-
   @override
   void initState() {
     signInUser();
@@ -87,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future signInUser({bool hasError = false, bool hasData = true}) async {
+  Future signInUser() async {
     apiKey = await getApiKey();
     if (apiKey != null) {
       if (apiKey.length > 0) {
@@ -118,14 +115,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget getHomePage() {
-    Fluttertoast.showToast(
-        msg: "login successful",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        // timeInSecForIos: 1,
-        // backgroundColor: Colors.white,
-        textColor: Colors.black,
-        fontSize: 10.0);
+    // Fluttertoast.showToast(
+    //     msg: "login successful",
+    //     toastLength: Toast.LENGTH_LONG,
+    //     gravity: ToastGravity.BOTTOM,
+    //     // timeInSecForIos: 1,
+    //     // backgroundColor: Colors.white,
+    //     textColor: Colors.black,
+    //     fontSize: 10.0);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       color: Colors.grey[850],
@@ -183,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 175),
+                  margin: EdgeInsets.only(left: 215),
                   height: 290,
                   child: FloatingActionButton(
                       child: Icon(
@@ -311,9 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   // backgroundColor: Colors.white,
                                   textColor: Colors.black,
                                   fontSize: 10.0);
-                              setState(() {
-                                getHomePage();
-                              });
+                              
                               Navigator.pop(context);
                             }
                           }),
@@ -341,6 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   addTask(String taskName, String note) async {
     await _repository.addUserTask(apiKey, taskName, note);
+    setState(() {});
   }
 
   logOut() async {

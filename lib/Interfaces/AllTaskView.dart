@@ -29,6 +29,7 @@ class _HomeTab extends State<HomeTab> {
   @override
   void initState() {
     taskBloc = TaskBloc(widget.apiKey);
+
     super.initState(); // PAY ATTTENTION TO THIS !!!!!!
   }
 
@@ -93,9 +94,6 @@ class _HomeTab extends State<HomeTab> {
               noteCont.text = item.note;
 
               _showEditDialog(item.taskid, item.title, item.note);
-              // _showDelDialog(item.taskid);
-              print('task ID is: ' + item.taskid.toString());
-              print('the title is ' + item.title);
             }));
   }
 
@@ -113,7 +111,6 @@ class _HomeTab extends State<HomeTab> {
             taskList.remove(item);
             taskList.insert(newIndex, item);
           });
-          // physics: BouncingScrollPhysics()
         },
       ),
     );
@@ -306,6 +303,7 @@ class _HomeTab extends State<HomeTab> {
 
   void editTask(String taskName, String note, int taskId) async {
     await _repository.editUserTask(apiKey, taskId, taskName, note);
+    setState(() {});
   }
 
   void deleteTask(int taskid) async {

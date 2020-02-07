@@ -58,6 +58,7 @@ class RegisterApi {
           "repeats": ""
         }));
     if (response.statusCode == 201) {
+      
       print('task added');
     } else {
       throw Exception('failed to add task');

@@ -77,3 +77,4 @@ backend/.vscode
 backend/config.py
 backend/migrations
 folder/
+images/

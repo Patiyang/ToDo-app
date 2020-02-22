@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/helpers/buttons.dart';
-import 'package:todo_app/views/home.dart';
-import 'package:todo_app/views/landing.dart';
+import 'package:todo_app/views/home/home.dart';
+
 
 class Login extends StatelessWidget {
   @override
@@ -23,11 +23,11 @@ class Login extends StatelessWidget {
         ),
       ),
       body: ListView(
-        addAutomaticKeepAlives: true,
+        // addAutomaticKeepAlives: true,
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           Container(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             height: MediaQuery.of(context).size.height * .3,
             width: MediaQuery.of(context).size.width,
             child: Padding(
@@ -35,7 +35,7 @@ class Login extends StatelessWidget {
               child: Text(
                 'Welcome\n Back',
                 style: register,
-                textAlign: TextAlign.start,
+                // textAlign: TextAlign.start,
               ),
             ),
           ),

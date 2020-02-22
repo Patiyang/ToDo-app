@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/helpers/buttons.dart';
-import 'package:todo_app/views/home.dart';
+import 'package:todo_app/views/home/home.dart';
 
 class Register extends StatelessWidget {
   @override

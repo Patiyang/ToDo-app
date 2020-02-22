@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 /build/
+/images/
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -77,4 +78,4 @@ backend/.vscode
 backend/config.py
 backend/migrations
 folder/
-images/
+

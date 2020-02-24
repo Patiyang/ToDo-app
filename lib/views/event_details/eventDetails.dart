@@ -29,7 +29,7 @@ class EventDetails extends StatelessWidget {
                   fit: StackFit.expand,
             children: <Widget>[
               EventBackGround(),
-              EventContent(),
+              EventContent(event:event),
             ],
           ),
         ),

@@ -3,11 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/models/event.dart';
 import 'package:todo_app/models/guests.dart';
+// import 'package:todo_app/models/guests.dart';
 
 class EventContent extends StatelessWidget {
+  final Event event;
+
+  const EventContent({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final event = Provider.of<Event>(context);
+
     final screenWidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
@@ -63,9 +68,17 @@ class EventContent extends StatelessWidget {
                 for (final guest in guests)
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: ClipOval(
-                      child: Image.asset(guest.imagePath,
-                          width: 90, height: 90, fit: BoxFit.cover),
+                    child: Column(
+                      children: <Widget>[
+                        ClipOval(
+                          child: Image.asset(guest.imagePath,
+                              width: 90, height: 90, fit: BoxFit.cover),
+                        ),
+                        Text(
+                          guest.name,
+                          style: location.copyWith(fontSize: 12),
+                        )
+                      ],
                     ),
                   )
               ],
@@ -107,13 +120,13 @@ class EventContent extends StatelessWidget {
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: Image.asset(
-                      image,
-                      height: 200,
-                      width: 150,
-                      fit: BoxFit.cover,
-                    )),
+                          image,
+                          height: 200,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        )),
                   ))
               ],
             ),

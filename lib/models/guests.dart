@@ -2,15 +2,32 @@ class Guest {
   final String imagePath;
   final String name;
 
-  Guest(this.imagePath, this.name);
+  Guest({this.imagePath, this.name});
 }
 
-final guests = [
-  Guest('images/toys/g1.jpeg','Mum'),
-  Guest('images/toys/g2.jpeg', 'Ben'),
-  Guest('images/toys/g3.jpg', 'Ptah'),
-  Guest('images/toys/g4.jpg','Patty'),
-  Guest('images/toys/g5.jpg','Jos'),
-  Guest('images/toys/g6.jpg','meh'),
+List guests = [
+  Guest(
+    imagePath: 'images/toys/g1.jpeg',
+    name: 'Mum',
+  ),
+  Guest(
+    imagePath: 'images/toys/g2.jpeg',
+    name: 'Ben',
+  ),
+  Guest(
+    imagePath: 'images/toys/g3.jpg',
+    name: 'Ptah',
+  ),
+  Guest(
+    imagePath: 'images/toys/g4.jpg',
+    name: 'Patty',
+  ),
+  Guest(
+    imagePath: 'images/toys/g5.jpg',
+    name: 'Joseh',
+  ),
+  Guest(
+    imagePath: 'images/toys/g6.jpg',
+    name: 'Meh',
+  )
 ];
-

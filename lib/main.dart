@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
-import 'package:todo_app/views/home/home.dart';
-import 'package:todo_app/views/landing.dart';
-import 'package:todo_app/views/login.dart';
-import 'package:todo_app/views/registration.dart';
+import 'views/login_reg/landing.dart';
 
 void main() => runApp(Hotel());
 

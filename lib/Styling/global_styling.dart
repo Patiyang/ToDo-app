@@ -24,9 +24,17 @@ TextStyle hint = TextStyle(
     letterSpacing: .6);
 
 TextStyle heading = TextStyle(
-    color: Colors.white,fontWeight: FontWeight.bold, fontSize: 30, fontFamily: 'Sans', letterSpacing: .6);
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontSize: 30,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
 TextStyle fadedTextStyle = TextStyle(
-    color: Colors.white70,fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Sans', letterSpacing: .6);
+    color: Colors.white70,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
 
 TextStyle categoryTextStyle = TextStyle(
     color: Colors.white,
@@ -37,14 +45,38 @@ TextStyle categoryTextStyle = TextStyle(
 TextStyle selectedCategoryText = categoryTextStyle.copyWith(color: redColor);
 TextStyle eventTitle = TextStyle(
     color: greyColor,
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: FontWeight.bold,
     fontFamily: 'Sans',
     letterSpacing: .6);
-
-TextStyle eventDetailsTitle = TextStyle(
+TextStyle eventDescription = TextStyle(
     color: greyColor,
-    fontSize: 30,
+    fontSize: 12,
+    // fontWeight: FontWeight.bold,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
+
+TextStyle eventLocation = TextStyle(
+    color: greyColor,
+    fontSize: 12,
+    // fontWeight: FontWeight.bold,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
+TextStyle eventLocationdetails = TextStyle(
+    color: Colors.white,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
+    TextStyle eventDuration = TextStyle(
+    color: greyColor,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Sans',
+    letterSpacing: .6);
+TextStyle eventDetailsTitle = TextStyle(
+    color: Colors.white,
+    fontSize: 40,
     fontWeight: FontWeight.bold,
     fontFamily: 'Sans',
     letterSpacing: .6);

@@ -9,7 +9,7 @@ class Category {
   Category({this.id, this.name, this.icon});
 }
 
-final all = Category(id: 0, name: 'all', icon: Icons.search);
+final all = Category(id: 0, name: 'All', icon: Icons.format_align_left);
 final meet = Category(id: 1, name: 'MeetUp', icon: Icons.location_city);
 final music = Category(id: 2, name: 'Music', icon: Icons.library_music);
 final birthday = Category(id: 3, name: 'BirthDay', icon: Icons.cake);

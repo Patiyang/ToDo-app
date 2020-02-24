@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/Styling/global_styling.dart';
-import 'package:todo_app/views/login.dart';
-import 'package:todo_app/views/registration.dart';
+
+import 'login.dart';
+import 'registration.dart';
+
 
 class Landing extends StatefulWidget {
   @override

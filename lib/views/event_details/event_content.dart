@@ -6,9 +6,6 @@ import 'package:todo_app/models/guests.dart';
 // import 'package:todo_app/models/guests.dart';
 
 class EventContent extends StatelessWidget {
-  final Event event;
-
-  const EventContent({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final event = Provider.of<Event>(context);

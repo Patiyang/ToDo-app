@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/models/event.dart';
 import 'package:todo_app/views/event_details/event_background.dart';
 
@@ -13,23 +12,14 @@ class EventDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: Scaffold(
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: Text(
-        //     event.title,
-        //     style: eventDuration,
-        //   ),
-        //   automaticallyImplyLeading: false,
-        //   elevation: 0,
-        // ),
+      child: Scaffold(
         body: Provider<Event>.value(
-          value:event ,
-                child: Stack(
-                  fit: StackFit.expand,
+          value: event,
+          child: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
               EventBackGround(),
-              EventContent(event:event),
+              EventContent(),
             ],
           ),
         ),

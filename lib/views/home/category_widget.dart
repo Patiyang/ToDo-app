@@ -46,7 +46,8 @@ class CategoryWidget extends StatelessWidget {
             Text(
               category.name,
               style: isSelected ? selectedCategoryText : categoryTextStyle,
-            )
+            ),
+            
           ],
         ),
       ),

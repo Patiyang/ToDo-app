@@ -7,15 +7,10 @@ import 'package:todo_app/models/guests.dart';
 import 'package:todo_app/views/event_details/eventDetails.dart';
 import 'package:todo_app/views/home/category_widget.dart';
 import 'package:todo_app/views/home/homepage_background.dart';
-
 import '../../appstate.dart';
 import 'event.dart';
 
 class Home extends StatefulWidget {
-  final Event events;
-  final Guest guest;
-
-  const Home({Key key, this.events, this.guest}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -97,13 +92,15 @@ class _HomeState extends State<Home> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 30.0),
                                 child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => EventDetails(event:event)));
-                                    },
-                                    child: Events(event: event)),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                EventDetails(event: event)));
+                                  },
+                                  child: Events(event: event),
+                                ),
                               )
                           ],
                         );

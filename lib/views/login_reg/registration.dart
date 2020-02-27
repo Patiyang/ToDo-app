@@ -25,7 +25,7 @@ class Register extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * .2,
+            // height: MediaQuery.of(context).size.height * .2,
             width: MediaQuery.of(context).size.width,
             child: Padding(
               padding:
@@ -65,13 +65,13 @@ class Register extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 25),
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: TextFormField(
                       obscureText: true,
                       cursorColor: Colors.white70,
                       style: TextStyle(color: Colors.white70),
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         hintText: 'Password',
                         hintStyle: hint,
                       ),
@@ -91,7 +91,7 @@ class Register extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Sign In',
+                    'Sign Up',
                     style: signIn,
                   ),
                   CustomButton(
@@ -100,8 +100,8 @@ class Register extends StatelessWidget {
                         color: greyColor,
                       ),
                       callback: () {
-                        Navigator.pushReplacement(
-                            context, MaterialPageRoute(builder: (_) => Home()));
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (_) => Home()));
                       }),
                 ],
               ),

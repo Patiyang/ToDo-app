@@ -17,24 +17,24 @@ class _LandingState extends State<Landing> {
       body: Column(
         children: <Widget>[
           Container(
-            color: Theme.of(context).accentColor,
-            height: MediaQuery.of(context).size.height * .3,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'WELCOME',
-                    style: register,
-                  ),
-                  Text(
-                    'TO Blah Blah Blah',
-                    style: landing,
-                  ),
-                ],
+              color: Theme.of(context).accentColor,
+              height: MediaQuery.of(context).size.height * .3,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+          'WELCOME',
+          style: register,
+                    ),
+                    Text(
+          'TO Blah Blah Blah',
+          style: landing,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
           Container(
             color: Theme.of(context).accentColor,
             height: MediaQuery.of(context).size.height * .4,
@@ -45,7 +45,7 @@ class _LandingState extends State<Landing> {
               ),
             ),
           ),
-          Spacer(),
+          // Spacer(),
           Container(
               color: Theme.of(context).accentColor,
               height: MediaQuery.of(context).size.height * .3,

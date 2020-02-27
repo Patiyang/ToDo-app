@@ -3,7 +3,6 @@ import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/helpers/buttons.dart';
 import 'package:todo_app/views/home/home.dart';
 
-
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,6 @@ class Login extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.topCenter,
-            height: MediaQuery.of(context).size.height * .2,
             child: Form(
               child: Column(
                 children: <Widget>[
@@ -58,8 +56,8 @@ class Login extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 25),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
                     child: TextFormField(
                       obscureText: true,
                       cursorColor: Colors.white70,

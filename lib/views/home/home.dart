@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/Styling/global_styling.dart';
 import 'package:todo_app/models/category.dart';
 import 'package:todo_app/models/event.dart';
-import 'package:todo_app/models/guests.dart';
 import 'package:todo_app/views/event_details/eventDetails.dart';
 import 'package:todo_app/views/home/category_widget.dart';
 import 'package:todo_app/views/home/homepage_background.dart';
